@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
-                R.layout.simple_spinner_item, items.map { it->it.name }
+                R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
             )
 
             binding.exerciseDropdown.adapter = adapter
@@ -79,6 +79,12 @@ class MainActivity : AppCompatActivity() {
         binding.weightET.visibility = if (item!!.usesWeight) View.VISIBLE else View.GONE
         binding.setCountET.visibility = if (item!!.usesSetCount) View.VISIBLE else View.GONE
         binding.repCountET.visibility = if (item!!.usesRepCount) View.VISIBLE else View.GONE
+
+        binding.timeET.text.clear()
+        binding.distanceET.text.clear()
+        binding.weightET.text.clear()
+        binding.setCountET.text.clear()
+        binding.repCountET.text.clear()
 
     }
 
