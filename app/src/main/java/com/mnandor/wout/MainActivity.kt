@@ -4,8 +4,8 @@ import MainViewModel
 import MainViewModelFactory
 import android.R
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,8 +14,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -117,8 +118,11 @@ class MainActivity : AppCompatActivity() {
             templates?.get(binding.exerciseDropdown.selectedItemPosition)?.name ?: "Long click on Add first", Toast.LENGTH_SHORT
         ).show()
 
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val currentTime = sdf.format(Calendar.getInstance().time)
+
         mainViewModel.insert(ExerciseLog(
-            "hi",
+            currentTime,
             binding.exerciseDropdown.selectedItem.toString(),
             if(selectedItem!!.usesTime) binding.timeET.text.toString() else null,
             if(selectedItem!!.usesDistance) binding.distanceET.text.toString().toFloatOrNull() else null,
