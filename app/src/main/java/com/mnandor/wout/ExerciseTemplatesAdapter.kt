@@ -10,6 +10,10 @@ class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.E
 
     private var items:List<ExerciseTemplate> = listOf()
 
+    fun setItems(newItems:List<ExerciseTemplate>){
+        items = newItems
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseTemplateViewHolder {
         return ExerciseTemplateViewHolder.create(parent)
     }
