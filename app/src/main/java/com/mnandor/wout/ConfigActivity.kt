@@ -47,11 +47,11 @@ class ConfigActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             configViewModel.insert(ExerciseTemplate(
                 exNameET.text.toString(),
-                switchTime.isActivated,
-                switchDist.isActivated,
-                switchMass.isActivated,
-                switchReps.isActivated,
-                switchSets.isActivated,
+                switchTime.isChecked,
+                switchDist.isChecked,
+                switchMass.isChecked,
+                switchReps.isChecked,
+                switchSets.isChecked,
                 false
             ))
         }
