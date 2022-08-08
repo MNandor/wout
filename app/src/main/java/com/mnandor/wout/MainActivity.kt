@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateUIAfterDropdown(item: ExerciseTemplate?){
         if (item == null)
             return
-        
+
         binding.timeET.visibility = if (item!!.usesTime) View.VISIBLE else View.GONE
         binding.distanceET.visibility = if (item!!.usesDistance) View.VISIBLE else View.GONE
         binding.weightET.visibility = if (item!!.usesWeight) View.VISIBLE else View.GONE

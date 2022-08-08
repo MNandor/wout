@@ -50,8 +50,8 @@ class ConfigActivity : AppCompatActivity() {
                 switchTime.isChecked,
                 switchDist.isChecked,
                 switchMass.isChecked,
-                switchReps.isChecked,
                 switchSets.isChecked,
+                switchReps.isChecked,
                 false
             ))
         }
