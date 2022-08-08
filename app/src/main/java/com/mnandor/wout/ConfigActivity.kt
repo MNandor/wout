@@ -5,6 +5,8 @@ import ConfigViewModelFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Switch
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,8 +31,29 @@ class ConfigActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
 
+        setClickListeners()
+    }
+
+    private fun setClickListeners(){
+        val switchTime = findViewById<Switch>(R.id.switchTime)
+        val switchDist = findViewById<Switch>(R.id.switchDist)
+        val switchMass = findViewById<Switch>(R.id.switchMass)
+        val switchReps = findViewById<Switch>(R.id.switchReps)
+        val switchSets = findViewById<Switch>(R.id.switchSets)
+
+        val exNameET = findViewById<EditText>(R.id.newExTemplateET)
+
+
         findViewById<Button>(R.id.button).setOnClickListener {
-            configViewModel.insert(ExerciseTemplate("Hello"+(0..999).random().toString(), false, false, false, false, false, false))
+            configViewModel.insert(ExerciseTemplate(
+                exNameET.text.toString(),
+                switchTime.isActivated,
+                switchDist.isActivated,
+                switchMass.isActivated,
+                switchReps.isActivated,
+                switchSets.isActivated,
+                false))
         }
+
     }
 }
