@@ -12,5 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/buff</item>
+        <item name="android:editTextColor">@color/buff</item>
+        <item name="android:textColorHint">@color/maizecrayola</item>
     </style>
 </resources>
