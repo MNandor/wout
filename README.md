@@ -11,7 +11,7 @@ Wout, short for **W**ork**out**, is an open-source Android app made for keeping 
 	- [ ] correct past data
 	- [ ] able to mark breaks taken
 	- [ ] allow for leaving fields empty to log default values
-- [ ] dark mode
+- [x] dark mode
 - [ ] day templates with different sets of exercises
 	- [ ] suggest day template based on day of week
 	- [ ] suggest exercises based on day template
