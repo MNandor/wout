@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.insert(ExerciseLog(
             currentTime,
             binding.exerciseDropdown.selectedItem.toString(),
-            if(selectedItem!!.usesTime) binding.timeET.text.toString() else null,
+            if(selectedItem!!.usesTime and binding.timeET.text.toString().isNotEmpty()) binding.timeET.text.toString() else null,
             if(selectedItem!!.usesDistance) binding.distanceET.text.toString().toFloatOrNull() else null,
             if(selectedItem!!.usesWeight) binding.weightET.text.toString().toFloatOrNull() else null,
             if(selectedItem!!.usesSetCount) binding.setCountET.text.toString().toIntOrNull() else null,
