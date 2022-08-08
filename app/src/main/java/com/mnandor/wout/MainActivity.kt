@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.databinding.ActivityMainBinding
 
 
@@ -46,6 +48,17 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
 
             templates = items
+        })
+
+
+        val recyclerView = binding.exerciseLogsRecycle
+        val adapter = ExerciseLogsAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        mainViewModel.allLogs.observe(this, Observer { items ->
+            items?.let{adapter.setItems(items)}
+            adapter.notifyDataSetChanged()
         })
     }
 
