@@ -20,7 +20,7 @@ class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.E
 
     override fun onBindViewHolder(holder: ExerciseTemplateViewHolder, position: Int) {
         val current = items[position]
-        holder.bind(current.name)
+        holder.bind(current)
     }
 
     override fun getItemCount(): Int {
@@ -30,8 +30,13 @@ class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.E
     class ExerciseTemplateViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
 
-        fun bind(text: String?) {
-            wordItemView.text = text
+        fun bind(item: ExerciseTemplate) {
+            wordItemView.text = item.name
+            if (item.isDisabled){
+                wordItemView.alpha = 0.5F
+            } else {
+                wordItemView.alpha = 1F
+            }
         }
 
         companion object {

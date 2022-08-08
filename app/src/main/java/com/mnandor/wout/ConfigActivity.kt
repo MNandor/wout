@@ -52,7 +52,8 @@ class ConfigActivity : AppCompatActivity() {
                 switchMass.isActivated,
                 switchReps.isActivated,
                 switchSets.isActivated,
-                false))
+                false
+            ))
         }
 
     }
