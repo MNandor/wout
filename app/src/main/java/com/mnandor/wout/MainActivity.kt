@@ -70,9 +70,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var selectedItem:ExerciseTemplate? = null
+
     private fun updateUIAfterDropdown(item: ExerciseTemplate?){
         if (item == null)
             return
+
+        selectedItem = item
 
         binding.timeET.visibility = if (item!!.usesTime) View.VISIBLE else View.GONE
         binding.distanceET.visibility = if (item!!.usesDistance) View.VISIBLE else View.GONE
@@ -89,13 +93,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addExerciseLog(){
+        if (selectedItem == null)
+            return
+
         if (templates?.size == 0) {
             openConfigActivity()
-            return;
+            return
         }
         Toast.makeText(this,
             templates?.get(binding.exerciseDropdown.selectedItemPosition)?.name ?: "Long click on Add first", Toast.LENGTH_SHORT
         ).show()
+
+        mainViewModel.insert(ExerciseLog(
+            "hi",
+            binding.exerciseDropdown.selectedItem.toString(),
+            if(selectedItem!!.usesTime) binding.timeET.text.toString() else null,
+            if(selectedItem!!.usesDistance) binding.distanceET.text.toString().toFloatOrNull() else null,
+            if(selectedItem!!.usesWeight) binding.weightET.text.toString().toFloatOrNull() else null,
+            if(selectedItem!!.usesSetCount) binding.setCountET.text.toString().toIntOrNull() else null,
+            if(selectedItem!!.usesRepCount) binding.repCountET.text.toString().toIntOrNull() else null,
+
+        ))
 
     }
 

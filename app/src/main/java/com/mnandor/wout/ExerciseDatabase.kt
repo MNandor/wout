@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [ExerciseTemplate::class], version = 1, exportSchema = false)
+@Database(entities = [ExerciseTemplate::class, ExerciseLog::class], version = 1, exportSchema = false)
 public abstract class ExerciseDatabase : RoomDatabase() {
 
     abstract fun dao(): DataAccessObject

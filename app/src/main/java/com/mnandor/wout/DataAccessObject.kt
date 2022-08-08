@@ -18,4 +18,10 @@ interface DataAccessObject {
     // todo suspend should work in this function
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addExerciseTemplate(exerciseTemplate: ExerciseTemplate)
+
+    @Query("SELECT * FROM exercise_log ORDER BY timestamp ASC")
+    fun getLogs(): Flow<List<ExerciseLog>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun addExerciseLog(exerciseLog: ExerciseLog)
 }
