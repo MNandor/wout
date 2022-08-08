@@ -1,9 +1,11 @@
 package com.mnandor.wout
 
+import android.content.Intent
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.mnandor.wout.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +19,26 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.addButton.visibility = View.GONE
+        setClickListeners()
+    }
+
+    private fun setClickListeners(){
+        binding.addButton.setOnClickListener {
+            addExerciseLog()
+        }
+
+        binding.addButton.setOnLongClickListener {
+            openConfigActivity()
+            return@setOnLongClickListener true // yes, consume event
+        }
+    }
+
+    private fun addExerciseLog(){
+
+    }
+
+    private fun openConfigActivity(){
+        val intent = Intent(this, ConfigActivity::class.java)
+        startActivity(intent)
     }
 }
