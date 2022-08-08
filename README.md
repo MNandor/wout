@@ -4,10 +4,10 @@ Wout, short for **W**ork**out**, is an open-source Android app made for keeping 
 
 # Features
 
-- [ ] custom exercise templates with different metrics: number of reps, weight, distance, time
-	- [ ] settings screen for setting up templates
-- [ ] input data instantaneously from main screen
-	- [ ] display past data as text
+- [x] custom exercise templates with different metrics: number of reps, weight, distance, time
+	- [x] settings screen for setting up templates
+- [x] input data instantaneously from main screen
+	- [x] display past data as text
 	- [ ] correct past data
 	- [ ] able to mark breaks taken
 	- [ ] allow for leaving fields empty to log default values
