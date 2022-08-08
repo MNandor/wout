@@ -30,7 +30,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
-            android:id="@+id/editTextTime"
+            android:id="@+id/timeET"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:ems="10"
