@@ -30,21 +30,60 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="time"
+            android:inputType="time"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/distanceET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="km"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
             android:id="@+id/weightET"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="kg"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:minWidth="48dp"
             android:minHeight="48dp"
-            tools:ignore="SpeakableTextPresentCheck"
-            android:importantForAutofill="no" />
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/setCountET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="sets"
+            android:inputType="number"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/repCountET"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="reps"
             android:inputType="number"
             android:minWidth="48dp"
             android:minHeight="48dp"
