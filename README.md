@@ -8,7 +8,9 @@ Wout, short for **W**ork**out**, is an open-source Android app made for keeping 
 	- [x] settings screen for setting up templates
 - [x] input data instantaneously from main screen
 	- [x] display past data as text
+	- [x] show past data separated by date
 	- [ ] correct past data
+	- [x] delete past data
 	- [ ] able to mark breaks taken
 	- [ ] allow for leaving fields empty to log default values
 - [x] dark mode
