@@ -25,7 +25,6 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
 
     private var items:List<ExerciseLog> = listOf()
     private lateinit var deleteCallback: (ExerciseLog) -> Unit
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
     var dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -99,6 +98,9 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
     }
 
     class ExerciseLogViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+
+        var dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        var dtfhuman: DateTimeFormatter = DateTimeFormatter.ofPattern("LLLL dd EEEE")
         private var isSeparator = false
 
 
@@ -123,7 +125,7 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
 
         fun bind(date:LocalDate){
             val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
-            wordItemView.text = date.toString()
+            wordItemView.text = dtfhuman.format(date)
         }
 
         companion object {
