@@ -15,6 +15,14 @@ import java.time.temporal.ChronoUnit
 
 class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLogViewHolder>() {
 
+
+
+    companion object{
+        val TYPE_ITEM = 0
+        val TYPE_SEPARATOR = 1
+    }
+
+
     private var items:List<ExerciseLog> = listOf()
     private lateinit var deleteCallback: (ExerciseLog) -> Unit
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -26,8 +34,41 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
         deleteCallback = callback
     }
 
+
+    private val holeyItems:ArrayList<ExerciseLog?> = ArrayList()
+    private val holeyDates:ArrayList<LocalDate?> = ArrayList()
     fun setItems(newItems:List<ExerciseLog>){
         items = newItems
+        holeyItems.clear()
+        holeyDates.clear()
+        val today: LocalDate = LocalDateTime.now().toLocalDate()
+
+        if (items.isEmpty()){
+            holeyDates.add(today)
+            holeyItems.add(null)
+        } else{
+            var firstDay = LocalDateTime.parse(items[0].timestamp, dtf).toLocalDate()
+
+            for (item in items){
+                val itemDate = LocalDateTime.parse(item.timestamp, dtf).toLocalDate()
+                while (firstDay <= itemDate){
+                    holeyDates.add(firstDay)
+                    holeyItems.add(null)
+                    firstDay = firstDay.plusDays(1)
+                }
+
+                holeyDates.add(null)
+                holeyItems.add(item)
+            }
+
+            while (firstDay <= today){
+                holeyDates.add(firstDay)
+                holeyItems.add(null)
+                firstDay = firstDay.plusDays(1)
+            }
+
+        }
+
     }
 
     fun callDeleteCallback(item: ExerciseLog){
@@ -35,38 +76,37 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseLogViewHolder {
-        return ExerciseLogViewHolder.create(parent)
+        return ExerciseLogViewHolder.create(parent, viewType)
     }
 
     override fun onBindViewHolder(holder: ExerciseLogViewHolder, position: Int) {
-        val current = items[position]
-        holder.bind(current)
-        holder.itemView.setOnLongClickListener{
-            callDeleteCallback(current)
-            return@setOnLongClickListener true
+        if(holeyItems[position] != null){
+            val current = holeyItems[position]!!
+            holder.bind(current)
+            holder.itemView.setOnLongClickListener{
+                callDeleteCallback(current)
+                return@setOnLongClickListener true
+            }
+        } else {
+            holder.bind(holeyDates[position]!!)
+
         }
     }
 
+
     override fun getItemCount(): Int {
-        var add = 0
-        if (items.size != 0){
-
-            val firstDay: LocalDate = LocalDateTime.parse(items[0].timestamp, dtf).toLocalDate()
-            val today: LocalDate = LocalDateTime.now().toLocalDate()
-
-            val daysBetween = ChronoUnit.DAYS.between(firstDay, today)+1
-            
-        }
-
-        return items.size
+        return holeyItems.size
     }
 
     class ExerciseLogViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
-        private val textLogDate: TextView = itemView.findViewById(R.id.textLogDate)
-        private val textLogInfo: TextView = itemView.findViewById(R.id.textLogInfo)
+        private var isSeparator = false
+
 
         fun bind(item: ExerciseLog) {
+            val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
+            val textLogDate: TextView = itemView.findViewById(R.id.textLogDate)
+            val textLogInfo: TextView = itemView.findViewById(R.id.textLogInfo)
+
             wordItemView.text = item.exercise
             textLogDate.text = item.timestamp
 
@@ -81,13 +121,38 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
 
         }
 
+        fun bind(date:LocalDate){
+            val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
+            wordItemView.text = date.toString()
+        }
+
         companion object {
-            fun create(parent: ViewGroup): ExerciseLogViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_exercise_log, parent, false)
-                return ExerciseLogViewHolder(view)
+            fun create(parent: ViewGroup, type: Int): ExerciseLogViewHolder {
+
+                if (type == TYPE_ITEM){
+                    val view: View = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_exercise_log, parent, false)
+                    return ExerciseLogViewHolder(view)
+                }
+                else {
+                    val view: View = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_log_date_separator, parent, false)
+                    val vh = ExerciseLogViewHolder(view)
+                    vh.isSeparator = true
+
+                    return vh
+                }
+
             }
         }
+    }
+
+    @Override
+    override fun getItemViewType(position: Int): Int {
+        if (holeyDates[position] == null)
+            return TYPE_ITEM
+        else
+            return TYPE_SEPARATOR
     }
 
 }
