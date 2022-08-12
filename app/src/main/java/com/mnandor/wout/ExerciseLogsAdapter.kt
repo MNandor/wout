@@ -1,15 +1,26 @@
 package com.mnandor.wout
 
+import android.icu.util.Calendar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLogViewHolder>() {
 
     private var items:List<ExerciseLog> = listOf()
     private lateinit var deleteCallback: (ExerciseLog) -> Unit
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+    var dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
 
     fun setDeleteCallback(callback: (ExerciseLog) -> Unit){
         deleteCallback = callback
@@ -37,6 +48,16 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
     }
 
     override fun getItemCount(): Int {
+        var add = 0
+        if (items.size != 0){
+
+            val firstDay: LocalDate = LocalDateTime.parse(items[0].timestamp, dtf).toLocalDate()
+            val today: LocalDate = LocalDateTime.now().toLocalDate()
+
+            val daysBetween = ChronoUnit.DAYS.between(firstDay, today)+1
+            
+        }
+
         return items.size
     }
 
