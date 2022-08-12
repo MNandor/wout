@@ -3,6 +3,7 @@ package com.mnandor.wout
 import MainViewModel
 import MainViewModelFactory
 import android.R
+import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -11,12 +12,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = binding.exerciseLogsRecycle
         val adapter = ExerciseLogsAdapter()
+        adapter.setDeleteCallback { deleteExerciseLog(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -138,5 +142,17 @@ class MainActivity : AppCompatActivity() {
     private fun openConfigActivity(){
         val intent = Intent(this, ConfigActivity::class.java)
         startActivity(intent)
+    }
+
+    public fun deleteExerciseLog(exerciseLog: ExerciseLog){
+        AlertDialog.Builder(this)
+            .setTitle(exerciseLog.exercise)
+            .setMessage("Do you really want to empty the exercise log?")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes,
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    mainViewModel.deleteExerciseLog(exerciseLog)
+                })
+            .setNegativeButton(android.R.string.no, null).show()
     }
 }

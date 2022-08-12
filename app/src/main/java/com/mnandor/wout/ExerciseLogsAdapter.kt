@@ -9,9 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLogViewHolder>() {
 
     private var items:List<ExerciseLog> = listOf()
+    private lateinit var deleteCallback: (ExerciseLog) -> Unit
+
+    fun setDeleteCallback(callback: (ExerciseLog) -> Unit){
+        deleteCallback = callback
+    }
 
     fun setItems(newItems:List<ExerciseLog>){
         items = newItems
+    }
+
+    fun callDeleteCallback(item: ExerciseLog){
+        deleteCallback(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseLogViewHolder {
@@ -21,6 +30,10 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
     override fun onBindViewHolder(holder: ExerciseLogViewHolder, position: Int) {
         val current = items[position]
         holder.bind(current)
+        holder.itemView.setOnLongClickListener{
+            callDeleteCallback(current)
+            return@setOnLongClickListener true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -43,6 +56,7 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
             if (item.weight != null) textLogInfo.text = textLogInfo.text.toString()+" Weight: "+item.weight.toString()
             if (item.sets != null) textLogInfo.text = textLogInfo.text.toString()+" Sets: "+item.sets.toString()
             if (item.reps != null) textLogInfo.text = textLogInfo.text.toString()+" Reps: "+item.reps.toString()
+
 
         }
 
