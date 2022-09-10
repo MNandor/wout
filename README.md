@@ -1,6 +1,7 @@
 # Wout
 
-Wout, short for **W**ork**out**, is an open-source Android app made for keeping track of exercise logs and progressive overload.
+App for keeping track of workouts and progressive overload.
+`android`
 
 # Features
 
