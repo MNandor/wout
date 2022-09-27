@@ -161,7 +161,6 @@ class MainActivity : AppCompatActivity() {
     public fun editExerciseLog(exerciseLog: ExerciseLog){
         Toast.makeText(this, exerciseLog.exercise, Toast.LENGTH_SHORT).show()
         val settingsDialog = Dialog(this)
-        //settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE)
 
         val dialogBinding = DialogEditLogBinding.inflate(layoutInflater)
 
@@ -170,6 +169,12 @@ class MainActivity : AppCompatActivity() {
             dialogLogDateET.setText(exerciseLog.timestamp.split(" ")[0])
             dialogLogTimeET.setText(exerciseLog.timestamp.split(" ")[1])
             dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
+
+            if (exerciseLog.duration != null) dialogTimeET.setText(exerciseLog.duration) else dialogTimeET.visibility = View.GONE
+            if (exerciseLog.distance != null) dialogDistanceET.setText(exerciseLog.distance.toString()) else dialogDistanceET.visibility = View.GONE
+            if (exerciseLog.weight != null) dialogWeightET.setText(exerciseLog.weight.toString()) else dialogWeightET.visibility = View.GONE
+            if (exerciseLog.sets != null) dialogSetCountET.setText(exerciseLog.sets.toString()) else dialogSetCountET.visibility = View.GONE
+            if (exerciseLog.reps != null) dialogRepCountET.setText(exerciseLog.reps.toString()) else dialogRepCountET.visibility = View.GONE
         }
 
 
