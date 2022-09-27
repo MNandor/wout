@@ -23,7 +23,8 @@
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/dialogLogName" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogLogName"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/dialogLogTimeET"
@@ -34,7 +35,8 @@
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET"
         app:layout_constraintStart_toStartOf="@+id/dialogLogDateET"
-        app:layout_constraintTop_toBottomOf="@+id/dialogLogDateET" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogLogDateET"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/dialogLogName"
@@ -52,7 +54,7 @@
         android:backgroundTint="@color/firebrick"
         android:text="Cancel"
         app:layout_constraintStart_toStartOf="@+id/dialogLogTimeET"
-        app:layout_constraintTop_toBottomOf="@+id/dialogLogTimeET" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Button
         android:id="@+id/dialogChangeButton"
@@ -61,5 +63,77 @@
         android:backgroundTint="@color/buff"
         android:text="Change"
         app:layout_constraintEnd_toEndOf="@+id/dialogLogTimeET"
-        app:layout_constraintTop_toBottomOf="@+id/dialogLogTimeET" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/dialogChangeButton"
+        app:layout_constraintStart_toStartOf="@+id/dialogLogTimeET"
+        app:layout_constraintTop_toBottomOf="@+id/dialogLogTimeET">
+
+        <EditText
+            android:id="@+id/dialogTimeET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="time"
+            android:inputType="time"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/dialogDistanceET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="km"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/dialogWeightET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="kg"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/dialogSetCountET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="sets"
+            android:inputType="number"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/dialogRepCountET"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:hint="reps"
+            android:inputType="number"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
