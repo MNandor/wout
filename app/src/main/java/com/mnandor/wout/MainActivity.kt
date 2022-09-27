@@ -3,6 +3,7 @@ package com.mnandor.wout
 import MainViewModel
 import MainViewModelFactory
 import android.R
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
@@ -17,9 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.databinding.ActivityMainBinding
+import com.mnandor.wout.databinding.DialogEditLogBinding
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = binding.exerciseLogsRecycle
         val adapter = ExerciseLogsAdapter()
         adapter.setDeleteCallback { deleteExerciseLog(it) }
+        adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -154,5 +156,15 @@ class MainActivity : AppCompatActivity() {
                     mainViewModel.deleteExerciseLog(exerciseLog)
                 })
             .setNegativeButton(android.R.string.no, null).show()
+    }
+
+    public fun editExerciseLog(exerciseLog: ExerciseLog){
+        Toast.makeText(this, exerciseLog.exercise, Toast.LENGTH_SHORT).show()
+        val settingsDialog = Dialog(this)
+        //settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE)
+        settingsDialog.setContentView(
+            DialogEditLogBinding.inflate(layoutInflater).root
+        )
+        settingsDialog.show()
     }
 }

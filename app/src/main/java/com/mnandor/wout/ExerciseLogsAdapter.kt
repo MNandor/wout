@@ -25,12 +25,17 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
 
     private var items:List<ExerciseLog> = listOf()
     private lateinit var deleteCallback: (ExerciseLog) -> Unit
+    private lateinit var editCallback: (ExerciseLog) -> Unit
 
     var dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
 
     fun setDeleteCallback(callback: (ExerciseLog) -> Unit){
         deleteCallback = callback
+    }
+
+    fun setEditCallback(callback: (ExerciseLog) -> Unit){
+        editCallback = callback
     }
 
 
@@ -74,6 +79,10 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
         deleteCallback(item)
     }
 
+    fun callEditCallback(item: ExerciseLog){
+        editCallback(item)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseLogViewHolder {
         return ExerciseLogViewHolder.create(parent, viewType)
     }
@@ -85,6 +94,9 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
             holder.itemView.setOnLongClickListener{
                 callDeleteCallback(current)
                 return@setOnLongClickListener true
+            }
+            holder.itemView.setOnClickListener {
+                callEditCallback(current)
             }
         } else {
             holder.bind(holeyDates[position]!!)
