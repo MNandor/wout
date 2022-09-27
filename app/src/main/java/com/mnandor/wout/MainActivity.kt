@@ -162,9 +162,21 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, exerciseLog.exercise, Toast.LENGTH_SHORT).show()
         val settingsDialog = Dialog(this)
         //settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE)
-        settingsDialog.setContentView(
-            DialogEditLogBinding.inflate(layoutInflater).root
-        )
+
+        val dialogBinding = DialogEditLogBinding.inflate(layoutInflater)
+
+        with(dialogBinding){
+            dialogLogName.text = exerciseLog.exercise
+            dialogLogDateET.setText(exerciseLog.timestamp.split(" ")[0])
+            dialogLogTimeET.setText(exerciseLog.timestamp.split(" ")[1])
+            dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
+        }
+
+
+
+        settingsDialog.setContentView(dialogBinding.root)
+
+
         settingsDialog.show()
     }
 }
