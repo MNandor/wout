@@ -19,6 +19,10 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
     fun deleteExerciseLog(log: ExerciseLog){
         GlobalScope.launch { database.dao().deleteLog(log)}
     }
+
+    fun updateExerciseLog(log: ExerciseLog){
+        GlobalScope.launch { database.dao().updateLog(log)}
+    }
 }
 
 class MainViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {

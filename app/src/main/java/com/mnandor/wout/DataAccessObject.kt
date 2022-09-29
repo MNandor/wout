@@ -24,4 +24,8 @@ interface DataAccessObject {
 
     @Delete()
     fun deleteLog(exerciseLog: ExerciseLog)
+
+    @Update()
+    fun updateLog(exerciseLog: ExerciseLog)
+
 }

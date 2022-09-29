@@ -10,7 +10,8 @@ App for keeping track of workouts and progressive overload.
 - [x] input data instantaneously from main screen
 	- [x] display past data as text
 	- [x] show past data separated by date
-	- [ ] correct past data
+	- [x] correct past data
+	- [ ] change date of past data
 	- [x] delete past data
 	- [ ] able to mark breaks taken
 	- [ ] allow for leaving fields empty to log default values

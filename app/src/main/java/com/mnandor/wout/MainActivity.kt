@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
 import java.text.SimpleDateFormat
@@ -168,13 +170,34 @@ class MainActivity : AppCompatActivity() {
             dialogLogName.text = exerciseLog.exercise
             dialogLogDateET.setText(exerciseLog.timestamp.split(" ")[0])
             dialogLogTimeET.setText(exerciseLog.timestamp.split(" ")[1])
-            dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
 
             if (exerciseLog.duration != null) dialogTimeET.setText(exerciseLog.duration) else dialogTimeET.visibility = View.GONE
             if (exerciseLog.distance != null) dialogDistanceET.setText(exerciseLog.distance.toString()) else dialogDistanceET.visibility = View.GONE
             if (exerciseLog.weight != null) dialogWeightET.setText(exerciseLog.weight.toString()) else dialogWeightET.visibility = View.GONE
             if (exerciseLog.sets != null) dialogSetCountET.setText(exerciseLog.sets.toString()) else dialogSetCountET.visibility = View.GONE
             if (exerciseLog.reps != null) dialogRepCountET.setText(exerciseLog.reps.toString()) else dialogRepCountET.visibility = View.GONE
+
+            dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
+            dialogChangeButton.setOnClickListener {
+                // todo changing timestamp is not supported as it's a primary key
+
+                var duration:String? = dialogTimeET.text.toString()
+                if (duration.isNullOrEmpty())
+                    duration = null
+                val newLog:ExerciseLog = ExerciseLog(
+                    timestamp = exerciseLog.timestamp,
+                    exercise = exerciseLog.exercise,
+                    duration = duration,
+                    distance = dialogDistanceET.text.toString().toFloatOrNull(),
+                    weight = dialogWeightET.text.toString().toFloatOrNull(),
+                    sets = dialogSetCountET.text.toString().toIntOrNull(),
+                    reps = dialogRepCountET.text.toString().toIntOrNull(),
+                )
+
+                mainViewModel.updateExerciseLog(newLog)
+                settingsDialog.dismiss()
+
+            }
         }
 
 
