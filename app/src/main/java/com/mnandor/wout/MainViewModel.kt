@@ -11,6 +11,8 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val allLogs: LiveData<List<ExerciseLog>> = database.dao().getLogs().asLiveData()
 
+    val trendlinePrediction: MutableLiveData<Int> = MutableLiveData()
+
     fun insert(log: ExerciseLog) {
         // todo obvious workaround is obvious
         GlobalScope.launch { database.dao().addExerciseLog(log)}
@@ -22,6 +24,13 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     fun updateExerciseLog(log: ExerciseLog){
         GlobalScope.launch { database.dao().updateLog(log)}
+    }
+
+    public fun calculateTrendline(template: ExerciseTemplate){
+        GlobalScope.launch {
+            trendlinePrediction.postValue(template.hashCode())
+        }
+
     }
 }
 

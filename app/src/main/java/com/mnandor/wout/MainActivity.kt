@@ -17,12 +17,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
 import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +52,10 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
 
             templates = items
+        })
+
+        mainViewModel.trendlinePrediction.observe(this, Observer{
+            binding.repCountET.setHint("/"+it.toString())
         })
 
 
@@ -112,6 +113,11 @@ class MainActivity : AppCompatActivity() {
         binding.weightET.text.clear()
         binding.setCountET.text.clear()
         binding.repCountET.text.clear()
+
+        if (item!!.usesRepCount){
+            Toast.makeText(this, "toasty", Toast.LENGTH_SHORT).show()
+            mainViewModel.calculateTrendline(item)
+        }
 
     }
 
