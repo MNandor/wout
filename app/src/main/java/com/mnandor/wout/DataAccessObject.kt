@@ -28,4 +28,7 @@ interface DataAccessObject {
     @Update()
     fun updateLog(exerciseLog: ExerciseLog)
 
+    @Query("SELECT reps FROM exercise_log WHERE exercise = :exerciseTemplate and reps is not null ORDER BY timestamp DESC LIMIT :count")
+    fun getTrendlinePoints(exerciseTemplate: String, count:Int): List<Int?>
+
 }

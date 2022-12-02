@@ -28,7 +28,8 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     public fun calculateTrendline(template: ExerciseTemplate){
         GlobalScope.launch {
-            trendlinePrediction.postValue(template.hashCode())
+            val points = database.dao().getTrendlinePoints(template.name, 5)
+            trendlinePrediction.postValue(points.size)
         }
 
     }
