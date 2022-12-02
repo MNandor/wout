@@ -1,9 +1,12 @@
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.mnandor.wout.ExerciseDatabase
 import com.mnandor.wout.ExerciseLog
 import com.mnandor.wout.ExerciseTemplate
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
@@ -28,8 +31,42 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     public fun calculateTrendline(template: ExerciseTemplate){
         GlobalScope.launch {
-            val points = database.dao().getTrendlinePoints(template.name, 5)
-            trendlinePrediction.postValue(points.size)
+            val COUNT = 5
+
+            var points = database.dao().getTrendlinePoints(template.name, COUNT)
+
+
+
+            // do the trendline calculation
+            // this can be expanded on in many ways
+            //  have the calculation weighted towards more recent
+            //  handle not just set values but dates
+            //  switch from set to reps*set and maximums
+
+            val n = points.size
+            val x = (0..n-1).toList()
+            val y = points
+
+            val xy = mutableListOf<Int>()
+
+            for(it in x){
+                xy.add(it* y[it]!!)
+            }
+
+            val xs = x.map { it*it }
+
+            val b = (n*xy.sum() - x.sum()*(y.sum())).toFloat() / (n*xs.sum() - (x.sum()*x.sum()))
+
+            val a = (y.sum() - b*x.sum()) / n
+
+            val predict = a + b*-1
+
+            try {
+                trendlinePrediction.postValue(predict.roundToInt())
+            } catch (e: Exception){
+                trendlinePrediction.postValue(0)
+            }
+
         }
 
     }
