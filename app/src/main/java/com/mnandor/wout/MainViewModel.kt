@@ -47,6 +47,11 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
             val x = (0..n-1).toList()
             val y = points
 
+            if (n == 0){
+                trendlinePrediction.postValue(0)
+                return@launch
+            }
+
             val xy = mutableListOf<Int>()
 
             for(it in x){
@@ -59,13 +64,11 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
             val a = (y.sum() - b*x.sum()) / n
 
-            val predict = a + b*-1
+            var predict = a + b*-1
+            if (predict < y.max() || predict.isNaN())
+                predict = y.max().toFloat()
 
-            try {
-                trendlinePrediction.postValue(predict.roundToInt())
-            } catch (e: Exception){
-                trendlinePrediction.postValue(0)
-            }
+            trendlinePrediction.postValue(predict.roundToInt())
 
         }
 
