@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
                 if (dayTemplates?.size != 0)
-                    Toast.makeText(this@MainActivity, dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition), Toast.LENGTH_SHORT).show()
+                    mainViewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
             }
         }
     }

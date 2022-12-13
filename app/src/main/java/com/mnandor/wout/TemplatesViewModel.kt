@@ -6,7 +6,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class TemplatesViewModel(private val database: ExerciseDatabase) : ViewModel() {
-    val allVisibleTemplates: LiveData<List<ExerciseTemplate>> = database.dao().getNonhiddenTemplates().asLiveData()
+    val allVisibleTemplates: LiveData<List<ExerciseTemplate>> = database.dao().getTemplates().asLiveData()
     val allTemplateItems: LiveData<List<TemplateItem>> = database.dao().getDayTemplates().asLiveData()
 
     fun insert(item: TemplateItem){
