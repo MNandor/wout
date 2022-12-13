@@ -31,4 +31,13 @@ interface DataAccessObject {
     @Query("SELECT reps FROM exercise_log WHERE exercise = :exerciseTemplate and reps is not null ORDER BY timestamp DESC LIMIT :count")
     fun getTrendlinePoints(exerciseTemplate: String, count:Int): List<Int>
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun addDayTemplate(template: TemplateItem)
+
+    @Delete()
+    fun deleteDayTemplate(template: TemplateItem)
+
+    @Query("SELECT * FROM day_template ORDER BY template DESC, exercise ASC")
+    fun getDayTemplates(): Flow<List<TemplateItem>>
+
 }

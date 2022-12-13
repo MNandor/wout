@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "day_template")
 data class TemplateItem(
-    @PrimaryKey val itemID: Int,
+    @PrimaryKey(autoGenerate = true)
+    var itemID: Int = 0,
     val exercise: String,
     val template: String,
 

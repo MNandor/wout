@@ -47,6 +47,20 @@ class TemplatesActivity : AppCompatActivity() {
 
         })
 
+        val recyclerView = binding.templatesRecycle
+        val adapter = TemplateItemsAdapter()
+        //adapter.setDeleteCallback { deleteExerciseLog(it) }
+        //adapter.setEditCallback { editExerciseLog(it) }
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        templatesViewModel.allTemplateItems.observe(this, Observer { items ->
+            items?.let{adapter.setItems(items)}
+            adapter.notifyDataSetChanged()
+            recyclerView.scrollToPosition(items.size-1)
+        })
+
         setClickListeners()
     }
 
@@ -62,7 +76,7 @@ class TemplatesActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            Toast.makeText(this, currentExercise?.name, Toast.LENGTH_SHORT).show()
+            templatesViewModel.insert(TemplateItem(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
         }
 
     }
