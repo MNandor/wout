@@ -16,6 +16,8 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val trendlinePrediction: MutableLiveData<Int> = MutableLiveData()
 
+    val allDayTemplates: LiveData<List<String>> = database.dao().getDayTemplateNames().asLiveData()
+
     fun insert(log: ExerciseLog) {
         // todo obvious workaround is obvious
         GlobalScope.launch { database.dao().addExerciseLog(log)}

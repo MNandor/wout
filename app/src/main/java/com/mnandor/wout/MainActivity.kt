@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var templates: List<ExerciseTemplate>? = null
+    private var dayTemplates: List<String>? = null
 
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as WoutApplication).database)
@@ -70,6 +71,19 @@ class MainActivity : AppCompatActivity() {
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(items.size-1)
+        })
+
+        mainViewModel.allDayTemplates.observe(this, Observer { items ->
+            val adapter = ArrayAdapter<String>(
+                this,
+                R.layout.simple_spinner_dropdown_item, items
+            )
+
+            binding.dayTemplateSelector.adapter = adapter
+
+            adapter.notifyDataSetChanged()
+
+            dayTemplates = items
         })
     }
 

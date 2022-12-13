@@ -40,4 +40,7 @@ interface DataAccessObject {
     @Query("SELECT * FROM day_template ORDER BY template DESC, exercise ASC")
     fun getDayTemplates(): Flow<List<TemplateItem>>
 
+    @Query("SELECT DISTINCT template FROM day_template")
+    fun getDayTemplateNames(): Flow<List<String>>
+
 }
