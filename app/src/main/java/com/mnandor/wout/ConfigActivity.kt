@@ -2,6 +2,7 @@ package com.mnandor.wout
 
 import ConfigViewModel
 import ConfigViewModelFactory
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -11,15 +12,22 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mnandor.wout.databinding.ActivityConfigBinding
+import com.mnandor.wout.databinding.ActivityMainBinding
 
 class ConfigActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityConfigBinding
+
     private val configViewModel: ConfigViewModel by viewModels {
         ConfigViewModelFactory((application as WoutApplication).database)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_config)
+
+        binding = ActivityConfigBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val recyclerView = findViewById<RecyclerView>(R.id.exerciseTemplatesRecycle)
         val adapter = ExerciseTemplatesAdapter()
@@ -44,7 +52,7 @@ class ConfigActivity : AppCompatActivity() {
         val exNameET = findViewById<EditText>(R.id.newExTemplateET)
 
 
-        findViewById<Button>(R.id.button).setOnClickListener {
+        binding.button.setOnClickListener {
             configViewModel.insert(ExerciseTemplate(
                 exNameET.text.toString(),
                 switchTime.isChecked,
@@ -56,5 +64,15 @@ class ConfigActivity : AppCompatActivity() {
             ))
         }
 
+        binding.button.setOnLongClickListener {
+            openTemplatesActivity()
+            return@setOnLongClickListener true // yes, consume event
+        }
+
+    }
+
+    private fun openTemplatesActivity(){
+        val intent = Intent(this, TemplatesActivity::class.java)
+        startActivity(intent)
     }
 }
