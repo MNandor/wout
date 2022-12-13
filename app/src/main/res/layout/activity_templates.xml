@@ -7,7 +7,7 @@
     tools:context=".ConfigActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/exerciseLogsRecycle"
+        android:id="@+id/templatesRecycle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -21,6 +21,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <Spinner
+            android:id="@+id/exerciseDropdown2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/editTextTextPersonName"
@@ -36,7 +44,6 @@
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Add" />
     </LinearLayout>
 

@@ -5,14 +5,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class TemplatesViewModel(private val database: ExerciseDatabase) : ViewModel() {
-
+    val allVisibleTemplates: LiveData<List<ExerciseTemplate>> = database.dao().getNonhiddenTemplates().asLiveData()
 }
 
 class TemplatesViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ConfigViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(TemplatesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ConfigViewModel(database) as T
+            return TemplatesViewModel(database) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
