@@ -106,6 +106,17 @@ class MainActivity : AppCompatActivity() {
                     updateUIAfterDropdown(templates?.get(binding.exerciseDropdown.selectedItemPosition))
             }
         }
+
+        binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
+                if (dayTemplates?.size != 0)
+                    Toast.makeText(this@MainActivity, dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private var selectedItem:ExerciseTemplate? = null
