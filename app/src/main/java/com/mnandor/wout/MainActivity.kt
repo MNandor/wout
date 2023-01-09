@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.allDayTemplates.observe(this, Observer { items ->
             val itemsMut = items.toMutableList()
 
-//            if (items.isNotEmpty()){
+            binding.dayTemplateSelector.isEnabled = items.isNotEmpty()
+
             itemsMut.add("All")
 
             val adapter = ArrayAdapter<String>(
