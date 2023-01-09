@@ -38,6 +38,7 @@ public abstract class ExerciseDatabase : RoomDatabase() {
                         "exercise TEXT NOT NULL," +
                         "template TEXT NOT NULL," +
                         "UNIQUE (exercise, template))")
+                database.execSQL("CREATE UNIQUE INDEX index_day_template_exercise_template ON day_template (exercise ASC, template ASC)")
             }
         }
     }
