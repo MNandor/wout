@@ -16,9 +16,9 @@ App for keeping track of workouts and progressive overload.
 	- [ ] able to mark breaks taken
 	- [ ] allow for leaving fields empty to log default values
 - [x] dark mode
-- [ ] day templates with different sets of exercises
+- [x] day templates with different sets of exercises
 	- [ ] suggest day template based on day of week
-	- [ ] suggest exercises based on day template
-- [ ] use linear regression to suggest number of reps to do
+	- [x] suggest exercises based on day template
+- [x] use linear regression to suggest number of reps to do
 - [ ] when rep count is too high, suggest increasing difficulty instead
 - [ ] export data as json
