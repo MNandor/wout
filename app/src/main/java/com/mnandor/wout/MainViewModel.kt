@@ -5,16 +5,30 @@ import com.mnandor.wout.ExerciseDatabase
 import com.mnandor.wout.ExerciseLog
 import com.mnandor.wout.ExerciseTemplate
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
-    val allVisibleTemplates: LiveData<List<ExerciseTemplate>> = database.dao().getNonhiddenTemplates().asLiveData()
+    val filter = MutableLiveData<String>()
+
+    fun setFilter(filterStr: String){
+        GlobalScope.launch { filter.postValue(filterStr) }
+    }
+
+    val allVisibleTemplates: LiveData<List<ExerciseTemplate>> = filter.switchMap {
+        database.dao().getNonhiddenTemplates(it).asLiveData()
+    }
+
+
 
     val allLogs: LiveData<List<ExerciseLog>> = database.dao().getLogs().asLiveData()
 
     val trendlinePrediction: MutableLiveData<Int> = MutableLiveData()
+
+    val allDayTemplates: LiveData<List<String>> = database.dao().getDayTemplateNames().asLiveData()
 
     fun insert(log: ExerciseLog) {
         // todo obvious workaround is obvious

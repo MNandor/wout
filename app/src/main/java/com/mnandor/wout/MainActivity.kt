@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var templates: List<ExerciseTemplate>? = null
+    private var dayTemplates: List<String>? = null
 
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as WoutApplication).database)
@@ -71,6 +72,25 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(items.size-1)
         })
+
+        mainViewModel.allDayTemplates.observe(this, Observer { items ->
+            val itemsMut = items.toMutableList()
+
+            binding.dayTemplateSelector.isEnabled = items.isNotEmpty()
+
+            itemsMut.add("All")
+
+            val adapter = ArrayAdapter<String>(
+                this,
+                R.layout.simple_spinner_dropdown_item, itemsMut
+            )
+
+            binding.dayTemplateSelector.adapter = adapter
+
+            adapter.notifyDataSetChanged()
+
+            dayTemplates = itemsMut
+        })
     }
 
     private fun setClickListeners(){
@@ -90,6 +110,18 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
                 if (templates?.size != 0)
                     updateUIAfterDropdown(templates?.get(binding.exerciseDropdown.selectedItemPosition))
+            }
+        }
+
+        mainViewModel.setFilter("All")
+        binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
+                if (dayTemplates?.size != 0)
+                    mainViewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
             }
         }
     }
