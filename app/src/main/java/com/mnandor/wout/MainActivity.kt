@@ -74,16 +74,21 @@ class MainActivity : AppCompatActivity() {
         })
 
         mainViewModel.allDayTemplates.observe(this, Observer { items ->
+            val itemsMut = items.toMutableList()
+
+//            if (items.isNotEmpty()){
+            itemsMut.add("All")
+
             val adapter = ArrayAdapter<String>(
                 this,
-                R.layout.simple_spinner_dropdown_item, items
+                R.layout.simple_spinner_dropdown_item, itemsMut
             )
 
             binding.dayTemplateSelector.adapter = adapter
 
             adapter.notifyDataSetChanged()
 
-            dayTemplates = items
+            dayTemplates = itemsMut
         })
     }
 
@@ -107,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        mainViewModel.setFilter("All")
         binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()

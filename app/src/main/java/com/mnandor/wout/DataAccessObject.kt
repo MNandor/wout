@@ -9,7 +9,7 @@ interface DataAccessObject {
     @Query("SELECT * FROM exercise_template ORDER BY isDisabled ASC, name ASC")
     fun getTemplates(): Flow<List<ExerciseTemplate>>
 
-    @Query("SELECT exercise_template.* FROM exercise_template LEFT JOIN day_template ON exercise == name WHERE template = :filter AND isDisabled != 1 ORDER BY name ASC")
+    @Query("SELECT exercise_template.* FROM exercise_template LEFT JOIN day_template ON exercise == name WHERE (template = :filter or :filter = 'All') AND isDisabled != 1 ORDER BY name ASC")
     fun getNonhiddenTemplates(filter: String): Flow<List<ExerciseTemplate>>
 
     // todo suspend should work in this function
