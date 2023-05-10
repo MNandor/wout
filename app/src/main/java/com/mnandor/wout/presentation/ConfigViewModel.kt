@@ -2,15 +2,15 @@ package com.mnandor.wout.presentation
 
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
-import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.Exercise
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ConfigViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
-    val allTemplates: LiveData<List<ExerciseTemplate>> = database.dao().getTemplates().asLiveData()
+    val allTemplates: LiveData<List<Exercise>> = database.dao().getTemplates().asLiveData()
 
-    fun insert(template: ExerciseTemplate) {
+    fun insert(template: Exercise) {
         // todo obvious workaround is obvious
         GlobalScope.launch { database.dao().addExerciseTemplate(template)}
     }

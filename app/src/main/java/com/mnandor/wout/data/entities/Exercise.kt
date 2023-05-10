@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "exercise_template")
-data class ExerciseTemplate(
+@Entity(tableName = "exercise")
+data class Exercise(
     @PrimaryKey @ColumnInfo(name = "name") val name: String,
 
     // without @ColumnInfo(name), the variable name is used for the column

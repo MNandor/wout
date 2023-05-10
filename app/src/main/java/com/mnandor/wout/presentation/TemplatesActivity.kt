@@ -1,7 +1,5 @@
 package com.mnandor.wout.presentation
 
-import com.mnandor.wout.presentation.TemplatesViewModel
-import com.mnandor.wout.presentation.TemplatesViewModelFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,14 +8,14 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.WoutApplication
-import com.mnandor.wout.data.entities.ExerciseTemplate
-import com.mnandor.wout.data.entities.TemplateItem
+import com.mnandor.wout.data.entities.Exercise
+import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.databinding.ActivityTemplatesBinding
 
 class TemplatesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTemplatesBinding
-    private var templates: List<ExerciseTemplate>? = null
-    private var currentExercise: ExerciseTemplate? = null
+    private var templates: List<Exercise>? = null
+    private var currentExercise: Exercise? = null
 
     private val templatesViewModel: TemplatesViewModel by viewModels {
         TemplatesViewModelFactory((application as WoutApplication).database)
@@ -47,14 +45,14 @@ class TemplatesActivity : AppCompatActivity() {
         })
 
         val recyclerView = binding.templatesRecycle
-        val adapter = TemplateItemsAdapter()
+        val adapter = LocationsAdapter()
         //adapter.setDeleteCallback { deleteExerciseLog(it) }
         //adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        templatesViewModel.allTemplateItems.observe(this, Observer { items ->
+        templatesViewModel.allLocations.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(items.size-1)
@@ -75,7 +73,7 @@ class TemplatesActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            templatesViewModel.insert(TemplateItem(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
+            templatesViewModel.insert(Location(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
         }
 
     }

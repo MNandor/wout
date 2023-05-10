@@ -1,6 +1,5 @@
 package com.mnandor.wout.presentation
 
-import com.mnandor.wout.presentation.MainViewModelFactory
 import android.R
 import android.app.Dialog
 import android.content.DialogInterface
@@ -17,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.WoutApplication
-import com.mnandor.wout.data.entities.ExerciseLog
-import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.Completion
+import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
 import java.text.SimpleDateFormat
@@ -27,7 +26,7 @@ import java.text.SimpleDateFormat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var templates: List<ExerciseTemplate>? = null
+    private var templates: List<Exercise>? = null
     private var dayTemplates: List<String>? = null
 
     private val mainViewModel: MainViewModel by viewModels {
@@ -128,9 +127,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var selectedItem: ExerciseTemplate? = null
+    private var selectedItem: Exercise? = null
 
-    private fun updateUIAfterDropdown(item: ExerciseTemplate?){
+    private fun updateUIAfterDropdown(item: Exercise?){
         if (item == null)
             return
 
@@ -171,7 +170,7 @@ class MainActivity : AppCompatActivity() {
         val currentTime = sdf.format(Calendar.getInstance().time)
 
         mainViewModel.insert(
-            ExerciseLog(
+            Completion(
             currentTime,
             binding.exerciseDropdown.selectedItem.toString(),
             if(selectedItem!!.usesTime and binding.timeET.text.toString().isNotEmpty()) binding.timeET.text.toString() else null,
@@ -190,34 +189,34 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    public fun deleteExerciseLog(exerciseLog: ExerciseLog){
+    public fun deleteExerciseLog(completion: Completion){
         AlertDialog.Builder(this)
-            .setTitle(exerciseLog.exercise)
+            .setTitle(completion.exercise)
             .setMessage("Do you really want to empty the exercise log?")
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setPositiveButton(android.R.string.yes,
                 DialogInterface.OnClickListener { dialog, whichButton ->
-                    mainViewModel.deleteExerciseLog(exerciseLog)
+                    mainViewModel.deleteExerciseLog(completion)
                 })
             .setNegativeButton(android.R.string.no, null).show()
     }
 
-    public fun editExerciseLog(exerciseLog: ExerciseLog){
-        Toast.makeText(this, exerciseLog.exercise, Toast.LENGTH_SHORT).show()
+    public fun editExerciseLog(completion: Completion){
+        Toast.makeText(this, completion.exercise, Toast.LENGTH_SHORT).show()
         val settingsDialog = Dialog(this)
 
         val dialogBinding = DialogEditLogBinding.inflate(layoutInflater)
 
         with(dialogBinding){
-            dialogLogName.text = exerciseLog.exercise
-            dialogLogDateET.setText(exerciseLog.timestamp.split(" ")[0])
-            dialogLogTimeET.setText(exerciseLog.timestamp.split(" ")[1])
+            dialogLogName.text = completion.exercise
+            dialogLogDateET.setText(completion.timestamp.split(" ")[0])
+            dialogLogTimeET.setText(completion.timestamp.split(" ")[1])
 
-            if (exerciseLog.duration != null) dialogTimeET.setText(exerciseLog.duration) else dialogTimeET.visibility = View.GONE
-            if (exerciseLog.distance != null) dialogDistanceET.setText(exerciseLog.distance.toString()) else dialogDistanceET.visibility = View.GONE
-            if (exerciseLog.weight != null) dialogWeightET.setText(exerciseLog.weight.toString()) else dialogWeightET.visibility = View.GONE
-            if (exerciseLog.sets != null) dialogSetCountET.setText(exerciseLog.sets.toString()) else dialogSetCountET.visibility = View.GONE
-            if (exerciseLog.reps != null) dialogRepCountET.setText(exerciseLog.reps.toString()) else dialogRepCountET.visibility = View.GONE
+            if (completion.duration != null) dialogTimeET.setText(completion.duration) else dialogTimeET.visibility = View.GONE
+            if (completion.distance != null) dialogDistanceET.setText(completion.distance.toString()) else dialogDistanceET.visibility = View.GONE
+            if (completion.weight != null) dialogWeightET.setText(completion.weight.toString()) else dialogWeightET.visibility = View.GONE
+            if (completion.sets != null) dialogSetCountET.setText(completion.sets.toString()) else dialogSetCountET.visibility = View.GONE
+            if (completion.reps != null) dialogRepCountET.setText(completion.reps.toString()) else dialogRepCountET.visibility = View.GONE
 
             dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
             dialogChangeButton.setOnClickListener {
@@ -226,9 +225,9 @@ class MainActivity : AppCompatActivity() {
                 var duration:String? = dialogTimeET.text.toString()
                 if (duration.isNullOrEmpty())
                     duration = null
-                val newLog: ExerciseLog = ExerciseLog(
-                    timestamp = exerciseLog.timestamp,
-                    exercise = exerciseLog.exercise,
+                val newLog: Completion = Completion(
+                    timestamp = completion.timestamp,
+                    exercise = completion.exercise,
                     duration = duration,
                     distance = dialogDistanceET.text.toString().toFloatOrNull(),
                     weight = dialogWeightET.text.toString().toFloatOrNull(),

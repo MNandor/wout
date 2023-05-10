@@ -2,8 +2,8 @@ package com.mnandor.wout.presentation
 
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
-import com.mnandor.wout.data.entities.ExerciseLog
-import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.Completion
+import com.mnandor.wout.data.entities.Exercise
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -16,32 +16,32 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
         GlobalScope.launch { filter.postValue(filterStr) }
     }
 
-    val allVisibleTemplates: LiveData<List<ExerciseTemplate>> = filter.switchMap {
+    val allVisibleTemplates: LiveData<List<Exercise>> = filter.switchMap {
         database.dao().getNonhiddenTemplates(it).asLiveData()
     }
 
 
 
-    val allLogs: LiveData<List<ExerciseLog>> = database.dao().getLogs().asLiveData()
+    val allLogs: LiveData<List<Completion>> = database.dao().getLogs().asLiveData()
 
     val trendlinePrediction: MutableLiveData<Int> = MutableLiveData()
 
     val allDayTemplates: LiveData<List<String>> = database.dao().getDayTemplateNames().asLiveData()
 
-    fun insert(log: ExerciseLog) {
+    fun insert(log: Completion) {
         // todo obvious workaround is obvious
         GlobalScope.launch { database.dao().addExerciseLog(log)}
     }
 
-    fun deleteExerciseLog(log: ExerciseLog){
+    fun deleteExerciseLog(log: Completion){
         GlobalScope.launch { database.dao().deleteLog(log)}
     }
 
-    fun updateExerciseLog(log: ExerciseLog){
+    fun updateExerciseLog(log: Completion){
         GlobalScope.launch { database.dao().updateLog(log)}
     }
 
-    public fun calculateTrendline(template: ExerciseTemplate){
+    public fun calculateTrendline(template: Exercise){
         GlobalScope.launch {
             val COUNT = 5
 

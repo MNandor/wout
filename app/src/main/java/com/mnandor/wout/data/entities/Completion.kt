@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "exercise_log")
-data class ExerciseLog(
+@Entity(tableName = "completion")
+data class Completion(
     @PrimaryKey @ColumnInfo(name = "timestamp") val timestamp: String,
 
     val exercise: String,

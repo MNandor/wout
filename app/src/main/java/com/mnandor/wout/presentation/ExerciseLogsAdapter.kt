@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
-import com.mnandor.wout.data.entities.ExerciseLog
+import com.mnandor.wout.data.entities.Completion
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -21,25 +21,25 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
     }
 
 
-    private var items:List<ExerciseLog> = listOf()
-    private lateinit var deleteCallback: (ExerciseLog) -> Unit
-    private lateinit var editCallback: (ExerciseLog) -> Unit
+    private var items:List<Completion> = listOf()
+    private lateinit var deleteCallback: (Completion) -> Unit
+    private lateinit var editCallback: (Completion) -> Unit
 
     var dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
 
-    fun setDeleteCallback(callback: (ExerciseLog) -> Unit){
+    fun setDeleteCallback(callback: (Completion) -> Unit){
         deleteCallback = callback
     }
 
-    fun setEditCallback(callback: (ExerciseLog) -> Unit){
+    fun setEditCallback(callback: (Completion) -> Unit){
         editCallback = callback
     }
 
 
-    private val holeyItems:ArrayList<ExerciseLog?> = ArrayList()
+    private val holeyItems:ArrayList<Completion?> = ArrayList()
     private val holeyDates:ArrayList<LocalDate?> = ArrayList()
-    fun setItems(newItems:List<ExerciseLog>){
+    fun setItems(newItems:List<Completion>){
         items = newItems
         holeyItems.clear()
         holeyDates.clear()
@@ -73,11 +73,11 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
 
     }
 
-    fun callDeleteCallback(item: ExerciseLog){
+    fun callDeleteCallback(item: Completion){
         deleteCallback(item)
     }
 
-    fun callEditCallback(item: ExerciseLog){
+    fun callEditCallback(item: Completion){
         editCallback(item)
     }
 
@@ -114,7 +114,7 @@ class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLog
         private var isSeparator = false
 
 
-        fun bind(item: ExerciseLog) {
+        fun bind(item: Completion) {
             val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
             val textLogDate: TextView = itemView.findViewById(R.id.textLogDate)
             val textLogInfo: TextView = itemView.findViewById(R.id.textLogInfo)

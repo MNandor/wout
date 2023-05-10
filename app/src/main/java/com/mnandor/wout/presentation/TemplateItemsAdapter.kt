@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
-import com.mnandor.wout.data.entities.TemplateItem
+import com.mnandor.wout.data.entities.Location
 import java.time.LocalDate
 
-class TemplateItemsAdapter : RecyclerView.Adapter<TemplateItemsAdapter.TemplateItemsViewHolder>() {
+class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
 
     companion object{
         val TYPE_TEMPLATE = 0
@@ -17,42 +17,42 @@ class TemplateItemsAdapter : RecyclerView.Adapter<TemplateItemsAdapter.TemplateI
     }
 
 
-    private var items:List<TemplateItem> = listOf()
-    private lateinit var deleteCallback: (TemplateItem) -> Unit
-    private lateinit var editCallback: (TemplateItem) -> Unit
+    private var items:List<Location> = listOf()
+    private lateinit var deleteCallback: (Location) -> Unit
+    private lateinit var editCallback: (Location) -> Unit
 
-    fun setDeleteCallback(callback: (TemplateItem) -> Unit){
+    fun setDeleteCallback(callback: (Location) -> Unit){
         deleteCallback = callback
     }
 
-    fun setEditCallback(callback: (TemplateItem) -> Unit){
+    fun setEditCallback(callback: (Location) -> Unit){
         editCallback = callback
     }
 
-    fun callDeleteCallback(item: TemplateItem){
+    fun callDeleteCallback(item: Location){
         deleteCallback(item)
     }
 
-    fun callEditCallback(item: TemplateItem){
+    fun callEditCallback(item: Location){
         editCallback(item)
     }
 
 
-    private val holeyItems:ArrayList<TemplateItem?> = ArrayList()
+    private val holeyItems:ArrayList<Location?> = ArrayList()
     private val holeyDates:ArrayList<LocalDate?> = ArrayList()
-    fun setItems(newItems:List<TemplateItem>){
+    fun setItems(newItems:List<Location>){
         items = newItems
     }
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TemplateItemsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationsViewHolder {
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_day_template, parent, false)
-        return TemplateItemsViewHolder(view)
+        return LocationsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TemplateItemsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LocationsViewHolder, position: Int) {
         val current = items[position]!!
         holder.bind(current)
         holder.itemView.setOnLongClickListener{
@@ -70,9 +70,9 @@ class TemplateItemsAdapter : RecyclerView.Adapter<TemplateItemsAdapter.TemplateI
         return items.size
     }
 
-    class TemplateItemsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class LocationsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        fun bind(item: TemplateItem) {
+        fun bind(item: Location) {
             itemView.findViewById<TextView>(R.id.dayTemplateName).text = item.template
             itemView.findViewById<TextView>(R.id.dayTemplateExercise).text = item.exercise
 

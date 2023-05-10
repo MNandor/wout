@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
-import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.Exercise
 
 class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.ExerciseTemplateViewHolder>() {
 
-    private var items:List<ExerciseTemplate> = listOf()
+    private var items:List<Exercise> = listOf()
 
-    fun setItems(newItems:List<ExerciseTemplate>){
+    fun setItems(newItems:List<Exercise>){
         items = newItems
     }
 
@@ -32,7 +32,7 @@ class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.E
     class ExerciseTemplateViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val wordItemView: TextView = itemView.findViewById(R.id.exerciseTemplateNameTV)
 
-        fun bind(item: ExerciseTemplate) {
+        fun bind(item: Exercise) {
             wordItemView.text = item.name
             if (item.isDisabled){
                 wordItemView.alpha = 0.5F

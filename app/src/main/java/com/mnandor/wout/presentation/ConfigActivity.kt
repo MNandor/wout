@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
-import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityConfigBinding
 
 class ConfigActivity : AppCompatActivity() {
@@ -53,7 +53,7 @@ class ConfigActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             configViewModel.insert(
-                ExerciseTemplate(
+                Exercise(
                 exNameET.text.toString(),
                 switchTime.isChecked,
                 switchDist.isChecked,
