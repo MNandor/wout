@@ -28,7 +28,7 @@ class ConfigActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.exerciseTemplatesRecycle)
+        val recyclerView = binding.exerciseTemplatesRecycle
         val adapter = ExerciseTemplatesAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -42,13 +42,13 @@ class ConfigActivity : AppCompatActivity() {
     }
 
     private fun setClickListeners(){
-        val switchTime = findViewById<Switch>(R.id.switchTime)
-        val switchDist = findViewById<Switch>(R.id.switchDist)
-        val switchMass = findViewById<Switch>(R.id.switchMass)
-        val switchReps = findViewById<Switch>(R.id.switchReps)
-        val switchSets = findViewById<Switch>(R.id.switchSets)
+        val switchTime = binding.switchTime
+        val switchDist = binding.switchDist
+        val switchMass = binding.switchMass
+        val switchReps = binding.switchReps
+        val switchSets = binding.switchSets
 
-        val exNameET = findViewById<EditText>(R.id.newExTemplateET)
+        val exNameET = binding.newExTemplateET
 
 
         binding.button.setOnClickListener {
