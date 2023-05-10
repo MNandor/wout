@@ -1,10 +1,12 @@
-package com.mnandor.wout
+package com.mnandor.wout.presentation
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mnandor.wout.R
+import com.mnandor.wout.data.entities.ExerciseTemplate
 
 class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.ExerciseTemplateViewHolder>() {
 

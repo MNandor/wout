@@ -1,6 +1,8 @@
+package com.mnandor.wout.presentation
+
 import androidx.lifecycle.*
-import com.mnandor.wout.ExerciseDatabase
-import com.mnandor.wout.ExerciseTemplate
+import com.mnandor.wout.data.ExerciseDatabase
+import com.mnandor.wout.data.entities.ExerciseTemplate
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.mnandor.wout
+package com.mnandor.wout.data
 
 import android.content.Context
 import androidx.room.Database
@@ -6,6 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.TemplateItem
+import com.mnandor.wout.data.entities.ExerciseLog
 
 
 @Database(entities = [ExerciseTemplate::class, ExerciseLog::class, TemplateItem::class], version = 2, exportSchema = false)

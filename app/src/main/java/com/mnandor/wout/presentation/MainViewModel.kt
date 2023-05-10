@@ -1,12 +1,10 @@
-import android.util.Log
-import android.widget.Toast
+package com.mnandor.wout.presentation
+
 import androidx.lifecycle.*
-import com.mnandor.wout.ExerciseDatabase
-import com.mnandor.wout.ExerciseLog
-import com.mnandor.wout.ExerciseTemplate
+import com.mnandor.wout.data.ExerciseDatabase
+import com.mnandor.wout.data.entities.ExerciseLog
+import com.mnandor.wout.data.entities.ExerciseTemplate
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 

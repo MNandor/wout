@@ -1,4 +1,4 @@
-package com.mnandor.wout
+package com.mnandor.wout.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

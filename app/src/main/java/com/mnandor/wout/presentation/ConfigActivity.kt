@@ -1,19 +1,18 @@
-package com.mnandor.wout
+package com.mnandor.wout.presentation
 
-import ConfigViewModel
-import ConfigViewModelFactory
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Switch
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mnandor.wout.R
+import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.ExerciseTemplate
 import com.mnandor.wout.databinding.ActivityConfigBinding
-import com.mnandor.wout.databinding.ActivityMainBinding
 
 class ConfigActivity : AppCompatActivity() {
     private lateinit var binding: ActivityConfigBinding
@@ -53,7 +52,8 @@ class ConfigActivity : AppCompatActivity() {
 
 
         binding.button.setOnClickListener {
-            configViewModel.insert(ExerciseTemplate(
+            configViewModel.insert(
+                ExerciseTemplate(
                 exNameET.text.toString(),
                 switchTime.isChecked,
                 switchDist.isChecked,
@@ -61,7 +61,8 @@ class ConfigActivity : AppCompatActivity() {
                 switchSets.isChecked,
                 switchReps.isChecked,
                 false
-            ))
+            )
+            )
         }
 
         binding.button.setOnLongClickListener {

@@ -1,7 +1,6 @@
-package com.mnandor.wout
+package com.mnandor.wout.presentation
 
-import MainViewModel
-import MainViewModelFactory
+import com.mnandor.wout.presentation.MainViewModelFactory
 import android.R
 import android.app.Dialog
 import android.content.DialogInterface
@@ -17,6 +16,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.ExerciseLog
+import com.mnandor.wout.data.entities.ExerciseTemplate
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
 import java.text.SimpleDateFormat
@@ -126,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var selectedItem:ExerciseTemplate? = null
+    private var selectedItem: ExerciseTemplate? = null
 
     private fun updateUIAfterDropdown(item: ExerciseTemplate?){
         if (item == null)
@@ -168,7 +170,8 @@ class MainActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val currentTime = sdf.format(Calendar.getInstance().time)
 
-        mainViewModel.insert(ExerciseLog(
+        mainViewModel.insert(
+            ExerciseLog(
             currentTime,
             binding.exerciseDropdown.selectedItem.toString(),
             if(selectedItem!!.usesTime and binding.timeET.text.toString().isNotEmpty()) binding.timeET.text.toString() else null,
@@ -177,7 +180,8 @@ class MainActivity : AppCompatActivity() {
             if(selectedItem!!.usesSetCount) binding.setCountET.text.toString().toIntOrNull() else null,
             if(selectedItem!!.usesRepCount) binding.repCountET.text.toString().toIntOrNull() else null,
 
-        ))
+        )
+        )
 
     }
 
@@ -222,7 +226,7 @@ class MainActivity : AppCompatActivity() {
                 var duration:String? = dialogTimeET.text.toString()
                 if (duration.isNullOrEmpty())
                     duration = null
-                val newLog:ExerciseLog = ExerciseLog(
+                val newLog: ExerciseLog = ExerciseLog(
                     timestamp = exerciseLog.timestamp,
                     exercise = exerciseLog.exercise,
                     duration = duration,

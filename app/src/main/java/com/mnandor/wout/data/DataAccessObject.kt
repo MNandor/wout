@@ -1,6 +1,9 @@
-package com.mnandor.wout
+package com.mnandor.wout.data
 
 import androidx.room.*
+import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.TemplateItem
+import com.mnandor.wout.data.entities.ExerciseLog
 import kotlinx.coroutines.flow.Flow
 
 @Dao

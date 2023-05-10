@@ -1,17 +1,13 @@
-package com.mnandor.wout
+package com.mnandor.wout.presentation
 
-import android.icu.util.Calendar
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.text.SimpleDateFormat
+import com.mnandor.wout.R
+import com.mnandor.wout.data.entities.TemplateItem
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 class TemplateItemsAdapter : RecyclerView.Adapter<TemplateItemsAdapter.TemplateItemsViewHolder>() {
 

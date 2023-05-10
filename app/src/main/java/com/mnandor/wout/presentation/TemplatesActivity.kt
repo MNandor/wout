@@ -1,9 +1,7 @@
-package com.mnandor.wout
+package com.mnandor.wout.presentation
 
-import ConfigViewModel
-import ConfigViewModelFactory
-import TemplatesViewModel
-import TemplatesViewModelFactory
+import com.mnandor.wout.presentation.TemplatesViewModel
+import com.mnandor.wout.presentation.TemplatesViewModelFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,8 +9,9 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.mnandor.wout.databinding.ActivityMainBinding
+import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.ExerciseTemplate
+import com.mnandor.wout.data.entities.TemplateItem
 import com.mnandor.wout.databinding.ActivityTemplatesBinding
 
 class TemplatesActivity : AppCompatActivity() {
