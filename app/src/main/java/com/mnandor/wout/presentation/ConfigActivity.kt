@@ -1,15 +1,10 @@
 package com.mnandor.wout.presentation
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.Switch
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityConfigBinding

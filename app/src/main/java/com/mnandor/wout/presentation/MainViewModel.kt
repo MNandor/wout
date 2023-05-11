@@ -1,10 +1,14 @@
 package com.mnandor.wout.presentation
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
+import com.mnandor.wout.data.entities.KeyValue
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -39,6 +43,25 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     fun updateExerciseLog(log: Completion){
         GlobalScope.launch { database.dao().updateLog(log)}
+    }
+
+    val openCount = MutableLiveData<String>()
+    fun storeAppOpened(){
+
+        GlobalScope.launch {
+            val last:String? = database.dao().getValue("openCounter")
+
+            if (last != null) {
+                val next = (last.toInt()+1).toString()
+                database.dao().setValue(KeyValue("openCounter", next))
+                openCount.postValue(next)
+
+            } else {
+                database.dao().setValue(KeyValue("openCounter", "1"))
+                openCount.postValue("1")
+            }
+
+        }
     }
 
     public fun calculateTrendline(template: Exercise){

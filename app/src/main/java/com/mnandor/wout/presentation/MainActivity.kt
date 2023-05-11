@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -17,7 +18,6 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.R
-import com.mnandor.wout.R.menu
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
@@ -64,6 +64,13 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        mainViewModel.openCount.observe(this, Observer {
+            Toast.makeText(this, "You have opened the app "+it+" times.", Toast.LENGTH_SHORT).show()
+        })
+
+        mainViewModel.storeAppOpened()
+
+
         val recyclerView = binding.exerciseLogsRecycle
         val adapter = ExerciseLogsAdapter()
         adapter.setDeleteCallback { deleteExerciseLog(it) }
@@ -95,6 +102,7 @@ class MainActivity : AppCompatActivity() {
 
             dayTemplates = itemsMut
         })
+
     }
 
     private fun setClickListeners(){

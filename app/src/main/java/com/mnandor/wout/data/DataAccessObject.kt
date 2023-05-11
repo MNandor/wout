@@ -4,6 +4,7 @@ import androidx.room.*
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.data.entities.Completion
+import com.mnandor.wout.data.entities.KeyValue
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -46,4 +47,9 @@ interface DataAccessObject {
     @Query("SELECT DISTINCT location FROM location")
     fun getDayTemplateNames(): Flow<List<String>>
 
+    @Query("SELECT value FROM kvpairs WHERE `key` = :key")
+    fun getValue(key: String): String?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun setValue(keyValue: KeyValue)
 }
