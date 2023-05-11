@@ -12,8 +12,8 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val allTemplates: LiveData<List<Exercise>> = database.dao().getTemplates().asLiveData()
 
-    val scheduleTotal = MutableLiveData<String>()
-    val scheduleOffset = MutableLiveData<String>()
+    val schedule = MutableLiveData<Pair<String, String>>()
+
 
     fun setLoopAndOffset(total: Int, offset: Int){
         GlobalScope.launch { database.dao().setValue(KeyValue("scheduleTotal", total.toString()))}
@@ -22,8 +22,9 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     fun getValuesFromDB(){
         GlobalScope.launch {
-            scheduleTotal.postValue(database.dao().getValue("scheduleTotal"))
-            scheduleOffset.postValue(database.dao().getValue("scheduleOffset"))
+            val total = database.dao().getValue("scheduleTotal")
+            val offset = database.dao().getValue("scheduleOffset")
+            schedule.postValue(Pair(total, offset) as Pair<String, String>?)
         }
     }
 }

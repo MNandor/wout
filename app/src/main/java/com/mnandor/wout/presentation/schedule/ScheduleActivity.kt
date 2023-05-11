@@ -1,15 +1,18 @@
 package com.mnandor.wout.presentation.schedule
 
 import android.icu.util.Calendar
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.databinding.ActivityScheduleBinding
 import java.text.SimpleDateFormat
+import java.time.temporal.ChronoUnit
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
@@ -36,12 +39,15 @@ class ScheduleActivity : AppCompatActivity() {
         binding.scheduleTotalET.addTextChangedListener { updateRecycler() }
         binding.scheduleTodayET.addTextChangedListener { updateRecycler() }
 
-        scheduleViewModel.scheduleTotal.observe(this, androidx.lifecycle.Observer {
-            binding.scheduleTotalET.setText(it)
-        })
 
-        scheduleViewModel.scheduleOffset.observe(this, androidx.lifecycle.Observer {
-            binding.scheduleTodayET.setText(it)
+        scheduleViewModel.schedule.observe(this, androidx.lifecycle.Observer {
+            val total = it.first
+            totalDays = total.toInt()
+            binding.scheduleTotalET.setText(it.first)
+            var value = (it.second.toInt()+offsetModifier()+totalDays).toInt()%totalDays
+            if (value == 0)
+                value = totalDays
+            binding.scheduleTodayET.setText(value.toString())
         })
 
         scheduleViewModel.getValuesFromDB()
@@ -51,10 +57,11 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
     }
-
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd, EEEE", Locale.getDefault())
+    val compFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private fun getScheduledDates(totalDays: Int, todayIs: Int): MutableList<String> {
         val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd, EEEE", Locale.getDefault())
+
         calendar.add(Calendar.DATE, -todayIs)
 
         val list = mutableListOf<String>()
@@ -95,7 +102,7 @@ class ScheduleActivity : AppCompatActivity() {
         val days = getScheduledDates(total, today)
 
         totalDays = total
-        offset = today
+        offset = (today-offsetModifier()).toInt()%total
 
         adapter.setItems(days)
 
@@ -112,6 +119,16 @@ class ScheduleActivity : AppCompatActivity() {
         else if (rem == 3) cardinal.text = "rd."
         else cardinal.text = "th."
 
+    }
+
+    fun offsetModifier(): Long {
+        val today = Date()
+        val old = compFormat.parse("2015-06-27")
+
+        val diff: Long = today.getTime() - old.getTime()
+        val days: Long = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
+
+        return days%totalDays
     }
 
 }
