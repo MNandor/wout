@@ -8,10 +8,11 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.Completion
+import com.mnandor.wout.data.entities.KeyValue
 import com.mnandor.wout.data.entities.Location
 
 
-@Database(entities = [Exercise::class, Completion::class, Location::class], version = 2, exportSchema = false)
+@Database(entities = [Exercise::class, Completion::class, Location::class, KeyValue::class], version = 2, exportSchema = false)
 public abstract class ExerciseDatabase : RoomDatabase() {
 
     abstract fun dao(): DataAccessObject
