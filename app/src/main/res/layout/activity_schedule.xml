@@ -55,7 +55,7 @@
         app:layout_constraintStart_toEndOf="@+id/scheduleTotalET" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/scheduleCardinal"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:gravity="center_vertical"

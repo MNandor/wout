@@ -63,12 +63,14 @@ class ScheduleActivity : AppCompatActivity() {
         val totalET = binding.scheduleTotalET
         val todayET = binding.scheduleTodayET
 
-        val total = totalET.text.toString().toIntOrNull()
-        if (total == null){
-            return
-        }
         val today = todayET.text.toString().toIntOrNull()
         if (today == null){
+            return
+        }
+        updateCardinal(today)
+
+        val total = totalET.text.toString().toIntOrNull()
+        if (total == null){
             return
         }
 
@@ -77,6 +79,17 @@ class ScheduleActivity : AppCompatActivity() {
         adapter.setItems(days)
 
         adapter.notifyDataSetChanged()
+
+    }
+
+    private fun updateCardinal(num: Int){
+        val cardinal = binding.scheduleCardinal
+        val rem = num%10;
+
+        if (rem == 1) cardinal.text = "st."
+        else if (rem == 2) cardinal.text = "nd."
+        else if (rem == 3) cardinal.text = "rd."
+        else cardinal.text = "th."
 
     }
 
