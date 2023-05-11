@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.schedule
 
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.exercises
 
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase

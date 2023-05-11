@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.main
 
 import android.view.LayoutInflater
 import android.view.View

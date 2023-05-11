@@ -1,11 +1,10 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.main
 
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -23,6 +22,9 @@ import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
+import com.mnandor.wout.presentation.exercises.ConfigActivity
+import com.mnandor.wout.presentation.schedule.ScheduleActivity
+import com.mnandor.wout.presentation.locations.TemplatesActivity
 import java.text.SimpleDateFormat
 
 

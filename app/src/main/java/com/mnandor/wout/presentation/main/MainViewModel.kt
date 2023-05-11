@@ -1,14 +1,11 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.KeyValue
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 

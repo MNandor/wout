@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.locations
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

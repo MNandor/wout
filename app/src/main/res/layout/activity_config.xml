@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ConfigActivity">
+    tools:context=".presentation.exercises.ConfigActivity">
 
     <Button
         android:id="@+id/button"
