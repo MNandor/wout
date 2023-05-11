@@ -233,7 +233,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openScheduleActivity(){
-
+        val intent = Intent(this, ScheduleActivity::class.java)
+        startActivity(intent)
     }
 
     public fun deleteExerciseLog(completion: Completion){
