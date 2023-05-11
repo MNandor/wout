@@ -154,6 +154,10 @@ class MainActivity : AppCompatActivity() {
                     openTemplatesActivity()
                     true
                 }
+                R.id.schedule -> {
+                    openScheduleActivity()
+                    true
+                }
                 else -> false
             }
         }
@@ -226,6 +230,10 @@ class MainActivity : AppCompatActivity() {
     private fun openTemplatesActivity(){
         val intent = Intent(this, TemplatesActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun openScheduleActivity(){
+
     }
 
     public fun deleteExerciseLog(completion: Completion){
