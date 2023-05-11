@@ -3,16 +3,28 @@ package com.mnandor.wout.presentation.schedule
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Exercise
+import com.mnandor.wout.data.entities.KeyValue
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
+
     val allTemplates: LiveData<List<Exercise>> = database.dao().getTemplates().asLiveData()
 
-    fun insert(template: Exercise) {
-        // todo obvious workaround is obvious
-        GlobalScope.launch { database.dao().addExerciseTemplate(template)}
+    val scheduleTotal = MutableLiveData<String>()
+    val scheduleOffset = MutableLiveData<String>()
+
+    fun setLoopAndOffset(total: Int, offset: Int){
+        GlobalScope.launch { database.dao().setValue(KeyValue("scheduleTotal", total.toString()))}
+        GlobalScope.launch { database.dao().setValue(KeyValue("scheduleOffset", offset.toString()))}
+    }
+
+    fun getValuesFromDB(){
+        GlobalScope.launch {
+            scheduleTotal.postValue(database.dao().getValue("scheduleTotal"))
+            scheduleOffset.postValue(database.dao().getValue("scheduleOffset"))
+        }
     }
 }
 

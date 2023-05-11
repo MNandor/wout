@@ -36,6 +36,20 @@ class ScheduleActivity : AppCompatActivity() {
         binding.scheduleTotalET.addTextChangedListener { updateRecycler() }
         binding.scheduleTodayET.addTextChangedListener { updateRecycler() }
 
+        scheduleViewModel.scheduleTotal.observe(this, androidx.lifecycle.Observer {
+            binding.scheduleTotalET.setText(it)
+        })
+
+        scheduleViewModel.scheduleOffset.observe(this, androidx.lifecycle.Observer {
+            binding.scheduleTodayET.setText(it)
+        })
+
+        scheduleViewModel.getValuesFromDB()
+
+        binding.scheduleConfirmButton.setOnClickListener {
+            scheduleViewModel.setLoopAndOffset(totalDays, offset)
+        }
+
     }
 
     private fun getScheduledDates(totalDays: Int, todayIs: Int): MutableList<String> {
@@ -59,6 +73,10 @@ class ScheduleActivity : AppCompatActivity() {
 
     }
 
+
+    private var totalDays:Int = 0
+    private var offset:Int = 0
+
     private fun updateRecycler(){
         val totalET = binding.scheduleTotalET
         val todayET = binding.scheduleTodayET
@@ -75,6 +93,9 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         val days = getScheduledDates(total, today)
+
+        totalDays = total
+        offset = today
 
         adapter.setItems(days)
 
