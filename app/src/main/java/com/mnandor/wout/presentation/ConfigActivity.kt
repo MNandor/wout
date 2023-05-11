@@ -66,14 +66,10 @@ class ConfigActivity : AppCompatActivity() {
         }
 
         binding.button.setOnLongClickListener {
-            openTemplatesActivity()
             return@setOnLongClickListener true // yes, consume event
         }
 
     }
 
-    private fun openTemplatesActivity(){
-        val intent = Intent(this, TemplatesActivity::class.java)
-        startActivity(intent)
-    }
+
 }

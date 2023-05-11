@@ -1,11 +1,11 @@
 package com.mnandor.wout.presentation
 
-import android.R
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,8 +13,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mnandor.wout.R
+import com.mnandor.wout.R.menu
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
@@ -46,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
-                R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
+                android.R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
             )
 
             binding.exerciseDropdown.adapter = adapter
@@ -83,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
             val adapter = ArrayAdapter<String>(
                 this,
-                R.layout.simple_spinner_dropdown_item, itemsMut
+                android.R.layout.simple_spinner_dropdown_item, itemsMut
             )
 
             binding.dayTemplateSelector.adapter = adapter
@@ -100,7 +103,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.addButton.setOnLongClickListener {
-            openConfigActivity()
+            openSettingsPopup(it)
+
             return@setOnLongClickListener true // yes, consume event
         }
 
@@ -126,6 +130,28 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun openSettingsPopup(popupButton: View) {
+        val popupMenu = PopupMenu(this, popupButton)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
+            when (item?.itemId) {
+                R.id.exercises -> {
+                    openConfigActivity()
+                    // Navigate to Exercises activity
+                    true
+                }
+                R.id.locations -> {
+                    // Navigate to Locations activity
+                    openTemplatesActivity()
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
 
     private var selectedItem: Exercise? = null
 
@@ -186,6 +212,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun openConfigActivity(){
         val intent = Intent(this, ConfigActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openTemplatesActivity(){
+        val intent = Intent(this, TemplatesActivity::class.java)
         startActivity(intent)
     }
 
