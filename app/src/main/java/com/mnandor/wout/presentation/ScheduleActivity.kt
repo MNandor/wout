@@ -40,7 +40,7 @@ class ScheduleActivity : AppCompatActivity() {
 
     private fun getScheduledDates(totalDays: Int, todayIs: Int): MutableList<String> {
         val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd, EEEE", Locale.getDefault())
         calendar.add(Calendar.DATE, -todayIs)
 
         val list = mutableListOf<String>()
