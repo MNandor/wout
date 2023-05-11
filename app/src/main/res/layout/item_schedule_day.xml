@@ -6,7 +6,7 @@
     android:layout_height="48dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iconToday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,14 +16,14 @@
         app:srcCompat="@android:drawable/ic_media_play" />
 
     <TextView
-        android:id="@+id/dayTemplateName"
+        android:id="@+id/scheduleDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="TextView"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/iconToday"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

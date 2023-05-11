@@ -73,7 +73,7 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHold
     class LocationsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         fun bind(item: Location) {
-            itemView.findViewById<TextView>(R.id.dayTemplateName).text = item.template
+            itemView.findViewById<TextView>(R.id.scheduleDate).text = item.template
             itemView.findViewById<TextView>(R.id.dayTemplateExercise).text = item.exercise
 
         }

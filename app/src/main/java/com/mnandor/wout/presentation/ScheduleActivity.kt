@@ -34,23 +34,31 @@ class ScheduleActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        updateViewModel(7, 3)
+        val days = updateViewModel(7, 3)
+
+        adapter.setItems(days)
+
+        adapter.notifyDataSetChanged()
     }
 
-    private fun updateViewModel(totalDays: Int, todayIs: Int) {
+    private fun updateViewModel(totalDays: Int, todayIs: Int): MutableList<String> {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         calendar.add(Calendar.DATE, -todayIs)
 
+        val list = mutableListOf<String>()
+
         for (i in 1..totalDays){
             calendar.add(Calendar.DATE, 1)
-            val date = dateFormat.format(calendar.time)
-
-            Log.d("in-dev", date)
+            var date = dateFormat.format(calendar.time)
 
             if (i == todayIs)
-                Log.d("in-dev", date)
+                date = "+"+date
+
+            list.add(date)
         }
+
+        return list
 
     }
 
