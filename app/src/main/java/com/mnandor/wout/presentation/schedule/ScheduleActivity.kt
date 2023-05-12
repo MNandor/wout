@@ -106,6 +106,8 @@ class ScheduleActivity : AppCompatActivity() {
 
         adapter.setItems(days)
 
+        adapter.setDropDownOptions(listOf("asd", "bsd"))
+
         adapter.notifyDataSetChanged()
 
     }
