@@ -56,6 +56,11 @@ class ScheduleActivity : AppCompatActivity() {
             scheduleViewModel.setLoopAndOffset(totalDays, offset)
         }
 
+        scheduleViewModel.allDayTemplates.observe(this, androidx.lifecycle.Observer {
+            adapter.setDropDownOptions(it)
+            adapter.notifyDataSetChanged()
+        })
+
     }
     val dateFormat = SimpleDateFormat("yyyy-MM-dd, EEEE", Locale.getDefault())
     val compFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -105,8 +110,6 @@ class ScheduleActivity : AppCompatActivity() {
         offset = (today-offsetModifier()).toInt()%total
 
         adapter.setItems(days)
-
-        adapter.setDropDownOptions(listOf("asd", "bsd"))
 
         adapter.notifyDataSetChanged()
 

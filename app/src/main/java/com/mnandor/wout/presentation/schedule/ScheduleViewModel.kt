@@ -9,11 +9,9 @@ import kotlinx.coroutines.launch
 
 class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
-
-    val allTemplates: LiveData<List<Exercise>> = database.dao().getTemplates().asLiveData()
-
     val schedule = MutableLiveData<Pair<String, String>>()
 
+    val allDayTemplates: LiveData<List<String>> = database.dao().getDayTemplateNames().asLiveData()
 
     fun setLoopAndOffset(total: Int, offset: Int){
         GlobalScope.launch { database.dao().setValue(KeyValue("scheduleTotal", total.toString()))}
