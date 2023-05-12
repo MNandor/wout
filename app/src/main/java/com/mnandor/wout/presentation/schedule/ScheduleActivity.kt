@@ -41,10 +41,15 @@ class ScheduleActivity : AppCompatActivity() {
 
 
         scheduleViewModel.schedule.observe(this, androidx.lifecycle.Observer {
-            val total = it.first
+            var total = it.first
+            if (total.isNullOrEmpty())
+                total = "1"
             totalDays = total.toInt()
-            binding.scheduleTotalET.setText(it.first)
-            var value = (it.second.toInt()+offsetModifier()+totalDays).toInt()%totalDays
+            binding.scheduleTotalET.setText(total)
+            var offset = it.second
+            if (offset.isNullOrEmpty())
+                offset = "1"
+            var value = (offset.toInt()+offsetModifier()+totalDays).toInt()%totalDays
             if (value == 0)
                 value = totalDays
             binding.scheduleTodayET.setText(value.toString())
