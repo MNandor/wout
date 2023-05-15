@@ -1,10 +1,7 @@
 package com.mnandor.wout.data
 
 import androidx.room.*
-import com.mnandor.wout.data.entities.Exercise
-import com.mnandor.wout.data.entities.Location
-import com.mnandor.wout.data.entities.Completion
-import com.mnandor.wout.data.entities.KeyValue
+import com.mnandor.wout.data.entities.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,7 +10,7 @@ interface DataAccessObject {
     @Query("SELECT * FROM exercise ORDER BY isDisabled ASC, name ASC")
     fun getTemplates(): Flow<List<Exercise>>
 
-    @Query("SELECT exercise.* FROM exercise LEFT JOIN location ON exercise == name WHERE (location = :filter or :filter = 'All') AND isDisabled != 1 ORDER BY name ASC")
+    @Query("SELECT exercise.* FROM exercise LEFT JOIN location ON exercise == name WHERE (location = :filter or :filter = 'All') AND isDisabled != 1 GROUP BY exercise.name ORDER BY name ASC")
     fun getNonhiddenTemplates(filter: String): Flow<List<Exercise>>
 
     // todo suspend should work in this function
