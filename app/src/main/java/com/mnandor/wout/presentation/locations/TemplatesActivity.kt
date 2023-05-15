@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.Location
@@ -33,7 +34,8 @@ class TemplatesActivity : AppCompatActivity() {
         templatesViewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
+                R.layout.spinner_item,
+                items.map { it->it.name }
             )
 
             binding.exerciseDropdown2.adapter = adapter

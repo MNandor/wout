@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
+                R.layout.spinner_item, items.map { it->it.name }
             )
 
             binding.exerciseDropdown.adapter = adapter
@@ -95,7 +95,8 @@ class MainActivity : AppCompatActivity() {
 
             val adapter = ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item, itemsMut
+                R.layout.spinner_item,
+                itemsMut
             )
 
             binding.dayTemplateSelector.adapter = adapter
