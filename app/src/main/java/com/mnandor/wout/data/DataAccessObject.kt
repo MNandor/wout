@@ -52,4 +52,7 @@ interface DataAccessObject {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setDaySchedule(dayScheduleDay: ScheduleDay)
+
+    @Query("SELECT * from scheduleday ORDER BY day")
+    fun getDaySchedules(): Flow<List<ScheduleDay>>
 }

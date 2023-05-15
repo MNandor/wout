@@ -68,6 +68,11 @@ class ScheduleActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
 
+        scheduleViewModel.allScheduleDays.observe(this, androidx.lifecycle.Observer {
+            adapter.setDropdownValues(it)
+            adapter.notifyDataSetChanged()
+        })
+
     }
     val dateFormat = SimpleDateFormat("yyyy-MM-dd, EEEE", Locale.getDefault())
     val compFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
