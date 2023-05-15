@@ -41,6 +41,9 @@ interface DataAccessObject {
     @Query("SELECT * FROM location ORDER BY location DESC, exercise ASC")
     fun getDayTemplates(): Flow<List<Location>>
 
+    @Query("SELECT * FROM location GROUP BY location ORDER BY location DESC, exercise ASC")
+    fun getUniqueDayTemplates(): Flow<List<Location>>
+
     @Query("SELECT DISTINCT location FROM location")
     fun getDayTemplateNames(): Flow<List<String>>
 

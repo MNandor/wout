@@ -13,7 +13,7 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val schedule = MutableLiveData<Pair<String, String>>()
 
-    val allDayTemplates: LiveData<List<Location>> = database.dao().getDayTemplates().asLiveData()
+    val allDayTemplates: LiveData<List<Location>> = database.dao().getUniqueDayTemplates().asLiveData()
 
     val allScheduleDays: LiveData<List<ScheduleDay>> = database.dao().getDaySchedules().asLiveData()
 
