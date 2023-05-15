@@ -1,12 +1,10 @@
 package com.mnandor.wout.presentation.schedule
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
 import com.mnandor.wout.data.entities.Location
@@ -20,6 +18,10 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
 
     fun setItems(newItems:List<String>){
         items = newItems
+    }
+
+    public fun getMap():Map<Int, String>{
+        return ScheduleViewHolder.userSetSchedules
     }
 
     fun setDropDownOptions(options: List<Location>){
@@ -46,11 +48,11 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
         var strToSend = "All"
         if (dropDownValues.any { it.day == position }){
             val selection:ScheduleDay = dropDownValues.first { it.day == position }
-            strToSend = selection.location.toString()
+            strToSend = dropDownOptions.find { selection.location == it.itemID }?.template ?: "All"
 
         }
 
-        holder.bind(current, dropDownOptions, strToSend)
+        holder.bind(current, dropDownOptions, strToSend, position)
     }
 
     override fun getItemCount(): Int {
@@ -62,7 +64,7 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
         private val iconToday: ImageView = itemView.findViewById(R.id.iconToday)
         private val dropDown: Spinner = itemView.findViewById(R.id.scheduleLocationSelector)
 
-        fun bind(item: String, locations:List<Location>, thisOption: String) {
+        fun bind(item: String, locations:List<Location>, thisOption: String, thisDayNumber: Int) {
             val options = locations.map { it.template }
 
             if (item.startsWith('+')){
@@ -86,6 +88,17 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
                 dropDown.setSelection(index)
             }
 
+            Log.d("nandorss", index.toString()+thisOption)
+
+            dropDown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
+                    userSetSchedules[thisDayNumber] = dropDown.selectedItem.toString()
+                }
+            }
+
         }
 
         companion object {
@@ -94,6 +107,8 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
                     .inflate(R.layout.item_schedule_day, parent, false)
                 return ScheduleViewHolder(view)
             }
+
+            public val userSetSchedules = mutableMapOf<Int, String>()
         }
     }
 

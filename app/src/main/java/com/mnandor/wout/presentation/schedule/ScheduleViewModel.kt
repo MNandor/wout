@@ -1,5 +1,6 @@
 package com.mnandor.wout.presentation.schedule
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Exercise
@@ -28,6 +29,26 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
             val offset = database.dao().getValue("scheduleOffset")
             schedule.postValue(Pair(total, offset) as Pair<String, String>?)
         }
+    }
+
+    fun updateScheduleDay(day: Int, locationName: String){
+        val locationID = allDayTemplates.value?.find { it.template == locationName }?.itemID
+            ?: return
+        Log.d("nandorss", locationID.toString()+day)
+        GlobalScope.launch {
+            database.dao().addScheduleDay(ScheduleDay(
+                day,
+                locationID!!,
+                ""
+            ))
+        }
+    }
+
+    fun removeScheduleDayData(day: Int){
+        GlobalScope.launch {
+            database.dao().removeScheduleDayData(day)
+        }
+
     }
 }
 

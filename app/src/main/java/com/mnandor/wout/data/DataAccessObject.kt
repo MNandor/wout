@@ -58,4 +58,13 @@ interface DataAccessObject {
 
     @Query("SELECT * from scheduleday ORDER BY day")
     fun getDaySchedules(): Flow<List<ScheduleDay>>
+
+    @Query("UPDATE scheduleday SET location = :location WHERE day = :day")
+    fun updateScheduleDay(location: Int, day: Int)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addScheduleDay(scheduleDay: ScheduleDay)
+
+    @Query("DELETE FROM scheduleday WHERE day = :day")
+    fun removeScheduleDayData(day: Int)
 }

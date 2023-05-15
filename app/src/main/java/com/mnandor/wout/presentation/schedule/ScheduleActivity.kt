@@ -61,6 +61,14 @@ class ScheduleActivity : AppCompatActivity() {
 
         binding.scheduleConfirmButton.setOnClickListener {
             scheduleViewModel.setLoopAndOffset(totalDays, offset)
+            val map = adapter.getMap()
+            map.forEach {
+                if (it.value != "All")
+                    scheduleViewModel.updateScheduleDay(it.key, it.value)
+                else{
+                    scheduleViewModel.removeScheduleDayData(it.key)
+                }
+            }
         }
 
         scheduleViewModel.allDayTemplates.observe(this, androidx.lifecycle.Observer {
