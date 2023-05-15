@@ -77,7 +77,7 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
 
             val adapter = ArrayAdapter<String>(
                 itemView.context,
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.spinner_item,
                 options
             )
 
