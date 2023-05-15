@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "scheduleday")
 data class ScheduleDay(
-    @PrimaryKey @ColumnInfo(name = "day") val day: Int,
+    @PrimaryKey @ColumnInfo(name = "day")
+    val day: Int,
 
     @ColumnInfo(name="location")
     val location: Int,

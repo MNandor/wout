@@ -49,4 +49,7 @@ interface DataAccessObject {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setValue(keyValue: KeyValue)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun setDaySchedule(dayScheduleDay: ScheduleDay)
 }
