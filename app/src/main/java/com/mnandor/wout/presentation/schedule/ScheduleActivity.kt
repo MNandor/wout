@@ -1,8 +1,10 @@
 package com.mnandor.wout.presentation.schedule
 
+import android.R
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener

@@ -21,7 +21,13 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
     }
 
     fun setDropDownOptions(options: List<String>){
-        dropDownOptions = options
+
+        val itemsMut = options.toMutableList()
+
+        itemsMut.add("All")
+
+        dropDownOptions = itemsMut
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
