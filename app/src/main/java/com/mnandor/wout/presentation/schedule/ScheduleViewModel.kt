@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.KeyValue
+import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.data.entities.ScheduleDay
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val schedule = MutableLiveData<Pair<String, String>>()
 
-    val allDayTemplates: LiveData<List<String>> = database.dao().getDayTemplateNames().asLiveData()
+    val allDayTemplates: LiveData<List<Location>> = database.dao().getDayTemplates().asLiveData()
 
     val allScheduleDays: LiveData<List<ScheduleDay>> = database.dao().getDaySchedules().asLiveData()
 

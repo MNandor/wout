@@ -9,23 +9,24 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
+import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.data.entities.ScheduleDay
 
 class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
 
     private var items:List<String> = listOf()
-    private var dropDownOptions:List<String> = listOf()
+    private var dropDownOptions:List<Location> = listOf()
     private var dropDownValues:List<ScheduleDay> = listOf()
 
     fun setItems(newItems:List<String>){
         items = newItems
     }
 
-    fun setDropDownOptions(options: List<String>){
+    fun setDropDownOptions(options: List<Location>){
 
         val itemsMut = options.toMutableList()
 
-        itemsMut.add("All")
+        itemsMut.add(Location(-1, "", "All"))
 
         dropDownOptions = itemsMut
 
@@ -43,6 +44,11 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
         val current = items[position]
 
         var strToSend = "All"
+        if (dropDownValues.any { it.day == position }){
+            val selection:ScheduleDay = dropDownValues.first { it.day == position }
+            strToSend = selection.location.toString()
+
+        }
 
         holder.bind(current, dropDownOptions, strToSend)
     }
@@ -56,7 +62,9 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>
         private val iconToday: ImageView = itemView.findViewById(R.id.iconToday)
         private val dropDown: Spinner = itemView.findViewById(R.id.scheduleLocationSelector)
 
-        fun bind(item: String, options:List<String>, thisOption: String) {
+        fun bind(item: String, locations:List<Location>, thisOption: String) {
+            val options = locations.map { it.template }
+
             if (item.startsWith('+')){
                 scheduleDate.text=item.removePrefix("+")
                 iconToday.visibility=View.VISIBLE
