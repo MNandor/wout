@@ -11,7 +11,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLogViewHolder>() {
+class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLogViewHolder>() {
 
 
 

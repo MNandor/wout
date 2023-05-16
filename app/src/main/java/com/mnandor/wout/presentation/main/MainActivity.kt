@@ -22,9 +22,9 @@ import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
-import com.mnandor.wout.presentation.exercises.ConfigActivity
+import com.mnandor.wout.presentation.exercises.ExercisesActivity
 import com.mnandor.wout.presentation.schedule.ScheduleActivity
-import com.mnandor.wout.presentation.locations.TemplatesActivity
+import com.mnandor.wout.presentation.locations.LocationsActivity
 import java.text.SimpleDateFormat
 
 
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val recyclerView = binding.exerciseLogsRecycle
-        val adapter = ExerciseLogsAdapter()
+        val adapter = MainRecyclerAdapter()
         adapter.setDeleteCallback { deleteExerciseLog(it) }
         adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter
@@ -226,12 +226,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openConfigActivity(){
-        val intent = Intent(this, ConfigActivity::class.java)
+        val intent = Intent(this, ExercisesActivity::class.java)
         startActivity(intent)
     }
 
     private fun openTemplatesActivity(){
-        val intent = Intent(this, TemplatesActivity::class.java)
+        val intent = Intent(this, LocationsActivity::class.java)
         startActivity(intent)
     }
 

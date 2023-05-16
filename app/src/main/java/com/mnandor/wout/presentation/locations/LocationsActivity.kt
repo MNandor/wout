@@ -13,13 +13,13 @@ import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.databinding.ActivityTemplatesBinding
 
-class TemplatesActivity : AppCompatActivity() {
+class LocationsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTemplatesBinding
     private var templates: List<Exercise>? = null
     private var currentExercise: Exercise? = null
 
-    private val viewModel: TemplatesViewModel by viewModels {
-        TemplatesViewModelFactory((application as WoutApplication).database)
+    private val viewModel: LocationsViewModel by viewModels {
+        LocationsViewModelFactory((application as WoutApplication).database)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class TemplatesActivity : AppCompatActivity() {
         })
 
         val recyclerView = binding.templatesRecycle
-        val adapter = LocationsAdapter()
+        val adapter = LocationsRecyclerAdapter()
         //adapter.setDeleteCallback { deleteExerciseLog(it) }
         //adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter

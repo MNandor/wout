@@ -15,10 +15,10 @@
         android:theme="@style/Theme.Wout"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.exercises.ConfigActivity"
+            android:name=".presentation.exercises.ExercisesActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.locations.TemplatesActivity"
+            android:name=".presentation.locations.LocationsActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.main.MainActivity"

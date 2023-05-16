@@ -9,7 +9,7 @@ import com.mnandor.wout.R
 import com.mnandor.wout.data.entities.Location
 import java.time.LocalDate
 
-class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
+class LocationsRecyclerAdapter : RecyclerView.Adapter<LocationsRecyclerAdapter.LocationsViewHolder>() {
 
     companion object{
         val TYPE_TEMPLATE = 0

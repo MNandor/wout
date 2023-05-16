@@ -9,11 +9,11 @@ import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityConfigBinding
 
-class ConfigActivity : AppCompatActivity() {
+class ExercisesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityConfigBinding
 
-    private val viewModel: ConfigViewModel by viewModels {
-        ConfigViewModelFactory((application as WoutApplication).database)
+    private val viewModel: ExercisesViewModel by viewModels {
+        ExercisesViewModelFactory((application as WoutApplication).database)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +24,7 @@ class ConfigActivity : AppCompatActivity() {
         setContentView(view)
 
         val recyclerView = binding.exerciseTemplatesRecycle
-        val adapter = ExerciseTemplatesAdapter()
+        val adapter = ExercisesRecyclerAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

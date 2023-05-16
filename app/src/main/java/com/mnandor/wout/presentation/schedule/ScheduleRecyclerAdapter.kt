@@ -10,7 +10,7 @@ import com.mnandor.wout.R
 import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.data.entities.ScheduleDay
 
-class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
+class ScheduleRecyclerAdapter : RecyclerView.Adapter<ScheduleRecyclerAdapter.ScheduleViewHolder>() {
 
     private var items:List<String> = listOf()
     private var dropDownOptions:List<Location> = listOf()

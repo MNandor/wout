@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
-    private lateinit var adapter: ScheduleAdapter
+    private lateinit var adapter: ScheduleRecyclerAdapter
 
 
     private val viewModel: ScheduleViewModel by viewModels {
@@ -30,7 +30,7 @@ class ScheduleActivity : AppCompatActivity() {
 
 
         val recyclerView = binding.scheduleRecycler
-        adapter = ScheduleAdapter()
+        adapter = ScheduleRecyclerAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 

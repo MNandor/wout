@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
 import com.mnandor.wout.data.entities.Exercise
 
-class ExerciseTemplatesAdapter : RecyclerView.Adapter<ExerciseTemplatesAdapter.ExerciseTemplateViewHolder>() {
+class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.ExerciseTemplateViewHolder>() {
 
     private var items:List<Exercise> = listOf()
 
