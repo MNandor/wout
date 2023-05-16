@@ -1,10 +1,7 @@
 package com.mnandor.wout.presentation.schedule
 
-import android.R
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -12,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.databinding.ActivityScheduleBinding
 import java.text.SimpleDateFormat
-import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -21,7 +17,7 @@ class ScheduleActivity : AppCompatActivity() {
     private lateinit var adapter: ScheduleAdapter
 
 
-    private val scheduleViewModel: ScheduleViewModel by viewModels {
+    private val viewModel: ScheduleViewModel by viewModels {
         ScheduleViewModelFactory((application as WoutApplication).database)
     }
 
@@ -42,7 +38,7 @@ class ScheduleActivity : AppCompatActivity() {
         binding.scheduleTodayET.addTextChangedListener { updateRecycler() }
 
 
-        scheduleViewModel.schedule.observe(this, androidx.lifecycle.Observer {
+        viewModel.schedule.observe(this, androidx.lifecycle.Observer {
             var total = it.first
             if (total.isNullOrEmpty())
                 total = "1"
@@ -57,26 +53,26 @@ class ScheduleActivity : AppCompatActivity() {
             binding.scheduleTodayET.setText(value.toString())
         })
 
-        scheduleViewModel.getValuesFromDB()
+        viewModel.getValuesFromDB()
 
         binding.scheduleConfirmButton.setOnClickListener {
-            scheduleViewModel.setLoopAndOffset(totalDays, offset)
+            viewModel.setLoopAndOffset(totalDays, offset)
             val map = adapter.getMap()
             map.forEach {
                 if (it.value != "All")
-                    scheduleViewModel.updateScheduleDay(it.key, it.value)
+                    viewModel.updateScheduleDay(it.key, it.value)
                 else{
-                    scheduleViewModel.removeScheduleDayData(it.key)
+                    viewModel.removeScheduleDayData(it.key)
                 }
             }
         }
 
-        scheduleViewModel.allDayTemplates.observe(this, androidx.lifecycle.Observer {
+        viewModel.allDayTemplates.observe(this, androidx.lifecycle.Observer {
             adapter.setDropDownOptions(it)
             adapter.notifyDataSetChanged()
         })
 
-        scheduleViewModel.allScheduleDays.observe(this, androidx.lifecycle.Observer {
+        viewModel.allScheduleDays.observe(this, androidx.lifecycle.Observer {
             adapter.setDropdownValues(it)
             adapter.notifyDataSetChanged()
         })

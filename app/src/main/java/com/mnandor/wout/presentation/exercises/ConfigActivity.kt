@@ -12,7 +12,7 @@ import com.mnandor.wout.databinding.ActivityConfigBinding
 class ConfigActivity : AppCompatActivity() {
     private lateinit var binding: ActivityConfigBinding
 
-    private val configViewModel: ConfigViewModel by viewModels {
+    private val viewModel: ConfigViewModel by viewModels {
         ConfigViewModelFactory((application as WoutApplication).database)
     }
 
@@ -28,7 +28,7 @@ class ConfigActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        configViewModel.allTemplates.observe(this, Observer { items ->
+        viewModel.allTemplates.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
         })
@@ -47,7 +47,7 @@ class ConfigActivity : AppCompatActivity() {
 
 
         binding.button.setOnClickListener {
-            configViewModel.insert(
+            viewModel.insert(
                 Exercise(
                 exNameET.text.toString(),
                 switchTime.isChecked,

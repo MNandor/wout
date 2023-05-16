@@ -18,7 +18,7 @@ class TemplatesActivity : AppCompatActivity() {
     private var templates: List<Exercise>? = null
     private var currentExercise: Exercise? = null
 
-    private val templatesViewModel: TemplatesViewModel by viewModels {
+    private val viewModel: TemplatesViewModel by viewModels {
         TemplatesViewModelFactory((application as WoutApplication).database)
     }
 
@@ -31,7 +31,7 @@ class TemplatesActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        templatesViewModel.allVisibleTemplates.observe(this, Observer { items ->
+        viewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
                 R.layout.spinner_item,
@@ -54,7 +54,7 @@ class TemplatesActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        templatesViewModel.allLocations.observe(this, Observer { items ->
+        viewModel.allLocations.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(items.size-1)
@@ -75,7 +75,7 @@ class TemplatesActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            templatesViewModel.insert(Location(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
+            viewModel.insert(Location(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
         }
 
     }

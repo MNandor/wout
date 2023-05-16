@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var templates: List<Exercise>? = null
     private var dayTemplates: List<String>? = null
 
-    private val mainViewModel: MainViewModel by viewModels {
+    private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as WoutApplication).database)
     }
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         setClickListeners()
 
 
-        mainViewModel.allVisibleTemplates.observe(this, Observer { items ->
+        viewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
                 R.layout.spinner_item, items.map { it->it.name }
@@ -61,16 +61,16 @@ class MainActivity : AppCompatActivity() {
             templates = items
         })
 
-        mainViewModel.trendlinePrediction.observe(this, Observer{
+        viewModel.trendlinePrediction.observe(this, Observer{
             binding.repCountET.setHint("/"+it.toString())
         })
 
 
-        mainViewModel.openCount.observe(this, Observer {
+        viewModel.openCount.observe(this, Observer {
             Toast.makeText(this, "You have opened the app "+it+" times.", Toast.LENGTH_SHORT).show()
         })
 
-        mainViewModel.storeAppOpened()
+        viewModel.storeAppOpened()
 
 
         val recyclerView = binding.exerciseLogsRecycle
@@ -80,13 +80,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        mainViewModel.allLogs.observe(this, Observer { items ->
+        viewModel.allLogs.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(items.size)
         })
 
-        mainViewModel.allDayTemplates.observe(this, Observer { items ->
+        viewModel.allDayTemplates.observe(this, Observer { items ->
             val itemsMut = items.toMutableList()
 
             binding.dayTemplateSelector.isEnabled = items.isNotEmpty()
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainViewModel.setFilter("All")
+        viewModel.setFilter("All")
         binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()
@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
                 if (dayTemplates?.size != 0)
-                    mainViewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
+                    viewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
             }
         }
     }
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
 
         if (item!!.usesRepCount){
             Toast.makeText(this, "toasty", Toast.LENGTH_SHORT).show()
-            mainViewModel.calculateTrendline(item)
+            viewModel.calculateTrendline(item)
         }
 
     }
@@ -210,7 +210,7 @@ class MainActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val currentTime = sdf.format(Calendar.getInstance().time)
 
-        mainViewModel.insert(
+        viewModel.insert(
             Completion(
             currentTime,
             binding.exerciseDropdown.selectedItem.toString(),
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setPositiveButton(android.R.string.yes,
                 DialogInterface.OnClickListener { dialog, whichButton ->
-                    mainViewModel.deleteExerciseLog(completion)
+                    viewModel.deleteExerciseLog(completion)
                 })
             .setNegativeButton(android.R.string.no, null).show()
     }
@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity() {
                     reps = dialogRepCountET.text.toString().toIntOrNull(),
                 )
 
-                mainViewModel.updateExerciseLog(newLog)
+                viewModel.updateExerciseLog(newLog)
                 settingsDialog.dismiss()
 
             }
