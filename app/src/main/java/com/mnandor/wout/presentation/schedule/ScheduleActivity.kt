@@ -2,6 +2,7 @@ package com.mnandor.wout.presentation.schedule
 
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -65,6 +66,8 @@ class ScheduleActivity : AppCompatActivity() {
                     viewModel.removeScheduleDayData(it.key)
                 }
             }
+
+            Toast.makeText(this, "Schedule Saved!", Toast.LENGTH_SHORT).show()
         }
 
         viewModel.allDayTemplates.observe(this, androidx.lifecycle.Observer {

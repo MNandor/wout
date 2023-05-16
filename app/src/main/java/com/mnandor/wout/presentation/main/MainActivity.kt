@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.openCount.observe(this, Observer {
-            Toast.makeText(this, "You have opened the app "+it+" times.", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "You have opened the app "+it+" times.", Toast.LENGTH_SHORT).show()
         })
 
         viewModel.storeAppOpened()
@@ -189,7 +189,6 @@ class MainActivity : AppCompatActivity() {
         binding.repCountET.text.clear()
 
         if (item!!.usesRepCount){
-            Toast.makeText(this, "toasty", Toast.LENGTH_SHORT).show()
             viewModel.calculateTrendline(item)
         }
 
