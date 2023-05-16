@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.allLogs.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
-            recyclerView.scrollToPosition(items.size-1)
+            recyclerView.scrollToPosition(items.size)
         })
 
         mainViewModel.allDayTemplates.observe(this, Observer { items ->
