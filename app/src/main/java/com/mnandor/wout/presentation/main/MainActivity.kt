@@ -242,7 +242,7 @@ class MainActivity : AppCompatActivity() {
     public fun deleteExerciseLog(completion: Completion){
         AlertDialog.Builder(this)
             .setTitle(completion.exercise)
-            .setMessage("Do you really want to empty the exercise log?")
+            .setMessage("Do you really want to delete this exercise log?")
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setPositiveButton(android.R.string.yes,
                 DialogInterface.OnClickListener { dialog, whichButton ->
