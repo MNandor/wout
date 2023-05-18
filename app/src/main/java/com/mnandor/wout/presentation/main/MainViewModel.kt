@@ -22,6 +22,12 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
     }
 
 
+    val locationSetting = MutableLiveData<String>()
+    fun loadLocationSetting(){
+        locationSetting.postValue("Gym")
+    }
+
+
 
     val allLogs: LiveData<List<Completion>> = database.dao().getLogs().asLiveData()
 

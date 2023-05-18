@@ -88,8 +88,6 @@ class ScheduleRecyclerAdapter : RecyclerView.Adapter<ScheduleRecyclerAdapter.Sch
                 dropDown.setSelection(index)
             }
 
-            Log.d("nandorss", index.toString()+thisOption)
-
             dropDown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onNothingSelected(p0: AdapterView<*>?) {
                 }

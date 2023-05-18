@@ -34,7 +34,6 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
     fun updateScheduleDay(day: Int, locationName: String){
         val locationID = allDayTemplates.value?.find { it.template == locationName }?.itemID
             ?: return
-        Log.d("nandorss", locationID.toString()+day)
         GlobalScope.launch {
             database.dao().addScheduleDay(ScheduleDay(
                 day,

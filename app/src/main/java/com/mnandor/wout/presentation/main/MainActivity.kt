@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -104,6 +105,13 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
 
             dayTemplates = itemsMut
+
+            viewModel.loadLocationSetting()
+        })
+
+        viewModel.locationSetting.observe(this, Observer {
+            dayTemplates?.let { it1 -> binding.dayTemplateSelector.setSelection(it1.indexOf(it)) }
+            binding.dayTemplateSelector.adapter
         })
 
     }
@@ -129,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.setFilter("All")
         binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()
@@ -138,6 +145,7 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
                 if (dayTemplates?.size != 0)
                     viewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
+
             }
         }
     }
