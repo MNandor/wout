@@ -1,14 +1,17 @@
 package com.mnandor.wout.presentation.locations
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.databinding.ActivityTemplatesBinding
@@ -48,7 +51,7 @@ class LocationsActivity : AppCompatActivity() {
 
         val recyclerView = binding.templatesRecycle
         val adapter = LocationsRecyclerAdapter()
-        //adapter.setDeleteCallback { deleteExerciseLog(it) }
+        adapter.setDeleteCallback { deleteLocation(it) }
         //adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -61,6 +64,18 @@ class LocationsActivity : AppCompatActivity() {
         })
 
         setClickListeners()
+    }
+
+    public fun deleteLocation(location: Location){
+        AlertDialog.Builder(this)
+            .setTitle(location.template+" - "+location.exercise)
+            .setMessage("Do you really want to delete this?")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes,
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    viewModel.remove(location)
+                })
+            .setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun setClickListeners(){
