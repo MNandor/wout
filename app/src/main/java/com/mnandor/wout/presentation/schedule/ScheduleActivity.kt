@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.DateUtility
+import com.mnandor.wout.DateUtility.Companion.offsetModifier
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.databinding.ActivityScheduleBinding
 import java.util.*
@@ -48,7 +49,7 @@ class ScheduleActivity : AppCompatActivity() {
             var offset = it.second
             if (offset.isNullOrEmpty())
                 offset = "1"
-            var value = (offset.toInt()+offsetModifier()+totalDays).toInt()%totalDays
+            var value = (offset.toInt()+offsetModifier(totalDays)+totalDays).toInt()%totalDays
             if (value == 0)
                 value = totalDays
             binding.scheduleTodayET.setText(value.toString())
@@ -125,7 +126,7 @@ class ScheduleActivity : AppCompatActivity() {
         val days = getScheduledDates(total, today)
 
         totalDays = total
-        offset = (today-offsetModifier()).toInt()%total
+        offset = (today-offsetModifier(totalDays)).toInt()%total
 
         adapter.setItems(days)
 
@@ -142,16 +143,6 @@ class ScheduleActivity : AppCompatActivity() {
         else if (rem == 3) cardinal.text = "rd."
         else cardinal.text = "th."
 
-    }
-
-    fun offsetModifier(): Long {
-        val today = Date()
-        val old = DateUtility.pastDate
-
-        val diff: Long = today.getTime() - old.getTime()
-        val days: Long = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
-
-        return days%totalDays
     }
 
 }

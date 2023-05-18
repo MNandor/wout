@@ -1,10 +1,13 @@
 package com.mnandor.wout.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.*
+import com.mnandor.wout.DateUtility
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.KeyValue
+import com.mnandor.wout.data.entities.ScheduleDay
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -12,6 +15,7 @@ import kotlin.math.roundToInt
 class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val filter = MutableLiveData<String>()
+
 
     fun setFilter(filterStr: String){
         GlobalScope.launch { filter.postValue(filterStr) }
@@ -24,7 +28,47 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val locationSetting = MutableLiveData<String>()
     fun loadLocationSetting(){
-        locationSetting.postValue("Gym")
+        GlobalScope.launch {
+            val today = DateUtility.getToday()
+            val lastDay = database.dao().getValue("lastDay")
+
+            Log.d("nandorss", today+" - "+lastDay)
+
+            // if the day was set already today, use it
+            var day:ScheduleDay?
+            if (today == lastDay){
+                day = database.dao().getDayByNumber(-1)
+            } else {
+
+                val total = database.dao().getValue("scheduleTotal")!!.toInt()
+                val offset = database.dao().getValue("scheduleOffset")!!.toInt()
+
+                var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total-1
+
+                Log.d("nandorss", "Get schedule "+value.toString())
+
+                day = database.dao().getDayByNumber(value)
+
+                if (day == null){
+                    // No value set for this day
+                    locationSetting.postValue("All")
+                    return@launch
+                }
+
+                val settableDay = ScheduleDay(-1, day.location, day.exercises)
+                database.dao().setDaySchedule(settableDay)
+//                database.dao().setValue(KeyValue("lastDay", today))
+            }
+
+            Log.d("nandorss", ">"+day.toString())
+
+            val location = database.dao().getLocationByID(day.location)
+
+            Log.d("nandorss", ">"+location.toString())
+
+            locationSetting.postValue(location.template)
+
+        }
     }
 
 

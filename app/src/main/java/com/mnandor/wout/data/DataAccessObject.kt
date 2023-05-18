@@ -59,6 +59,9 @@ interface DataAccessObject {
     @Query("SELECT * from scheduleday ORDER BY day")
     fun getDaySchedules(): Flow<List<ScheduleDay>>
 
+    @Query("SELECT * from scheduleday WHERE day = :day")
+    fun getDayByNumber(day: Int): ScheduleDay
+
     @Query("UPDATE scheduleday SET location = :location WHERE day = :day")
     fun updateScheduleDay(location: Int, day: Int)
 
@@ -67,4 +70,8 @@ interface DataAccessObject {
 
     @Query("DELETE FROM scheduleday WHERE day = :day")
     fun removeScheduleDayData(day: Int)
+
+    @Query("SELECT * FROM location WHERE itemID = :id")
+    fun getLocationByID(id: Int): Location
+
 }
