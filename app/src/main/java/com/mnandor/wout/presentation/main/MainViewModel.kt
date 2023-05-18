@@ -43,7 +43,8 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
                 val total = database.dao().getValue("scheduleTotal")!!.toInt()
                 val offset = database.dao().getValue("scheduleOffset")!!.toInt()
 
-                var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total-1
+                var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total
+                value = (value-1+total) % total
 
                 Log.d("nandorss", "Get schedule "+value.toString())
 
