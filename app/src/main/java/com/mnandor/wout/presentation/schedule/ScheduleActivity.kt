@@ -7,9 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mnandor.wout.DateUtility
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.databinding.ActivityScheduleBinding
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -81,8 +81,7 @@ class ScheduleActivity : AppCompatActivity() {
         })
 
     }
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd, EEEE", Locale.getDefault())
-    val compFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
     private fun getScheduledDates(totalDays: Int, todayIs: Int): MutableList<String> {
         val calendar = Calendar.getInstance()
 
@@ -92,7 +91,7 @@ class ScheduleActivity : AppCompatActivity() {
 
         for (i in 1..totalDays){
             calendar.add(Calendar.DATE, 1)
-            var date = dateFormat.format(calendar.time)
+            var date = DateUtility.dateFormat.format(calendar.time)
 
             if (i == todayIs)
                 date = "+"+date
@@ -147,7 +146,7 @@ class ScheduleActivity : AppCompatActivity() {
 
     fun offsetModifier(): Long {
         val today = Date()
-        val old = compFormat.parse("2015-06-27")
+        val old = DateUtility.pastDate
 
         val diff: Long = today.getTime() - old.getTime()
         val days: Long = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)

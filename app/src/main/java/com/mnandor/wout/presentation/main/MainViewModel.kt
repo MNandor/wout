@@ -105,6 +105,10 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
         }
 
     }
+
+    fun figureOutTodaysLocation(){
+
+    }
 }
 
 class MainViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
