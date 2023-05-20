@@ -40,8 +40,8 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
                 day = database.dao().getDayByNumber(-1)
             } else {
 
-                val total = database.dao().getValue("scheduleTotal")!!.toInt()
-                val offset = database.dao().getValue("scheduleOffset")!!.toInt()
+                val total = database.dao().getValue("scheduleTotal")?.toInt() ?: 1
+                val offset = database.dao().getValue("scheduleOffset")?.toInt() ?: 1
 
                 var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total
                 value = (value-1+total) % total
