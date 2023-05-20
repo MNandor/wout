@@ -74,4 +74,10 @@ interface DataAccessObject {
     @Query("SELECT * FROM location WHERE itemID = :id")
     fun getLocationByID(id: Int): Location
 
+    @Query("UPDATE exercise SET name = :newName WHERE name = :oldName")
+    fun updateExerciseName(oldName: String, newName: String)
+
+    @Query("UPDATE completion SET exercise = :newName WHERE exercise = :oldName")
+    fun updateExerciseNameInCompletions(oldName: String, newName: String)
+
 }

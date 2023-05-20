@@ -14,6 +14,13 @@ class ExercisesViewModel(private val database: ExerciseDatabase) : ViewModel() {
         // todo obvious workaround is obvious
         GlobalScope.launch { database.dao().addExerciseTemplate(template)}
     }
+
+    fun rename(oldName:String, newName: String){
+        GlobalScope.launch {
+            database.dao().updateExerciseName(oldName, newName)
+            database.dao().updateExerciseNameInCompletions(oldName, newName)
+        }
+    }
 }
 
 class ExercisesViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {

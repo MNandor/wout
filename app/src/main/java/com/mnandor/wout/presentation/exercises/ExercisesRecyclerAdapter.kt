@@ -6,11 +6,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
+import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 
 class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.ExerciseTemplateViewHolder>() {
 
     private var items:List<Exercise> = listOf()
+
+    private lateinit var editCallback: (Exercise) -> Unit
+
+    fun setEditCallback(callback: (Exercise) -> Unit){
+        editCallback = callback
+    }
 
     fun setItems(newItems:List<Exercise>){
         items = newItems
@@ -23,6 +30,10 @@ class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.E
     override fun onBindViewHolder(holder: ExerciseTemplateViewHolder, position: Int) {
         val current = items[position]
         holder.bind(current)
+        holder.itemView.setOnLongClickListener{
+            editCallback(current)
+            return@setOnLongClickListener true
+        }
     }
 
     override fun getItemCount(): Int {
