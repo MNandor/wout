@@ -14,9 +14,14 @@ class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.E
     private var items:List<Exercise> = listOf()
 
     private lateinit var editCallback: (Exercise) -> Unit
+    private lateinit var deleteCallback: (Exercise) -> Unit
 
     fun setEditCallback(callback: (Exercise) -> Unit){
         editCallback = callback
+    }
+
+    fun setDeleteCallback(callback: (Exercise) -> Unit){
+        deleteCallback = callback
     }
 
     fun setItems(newItems:List<Exercise>){
@@ -31,8 +36,11 @@ class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.E
         val current = items[position]
         holder.bind(current)
         holder.itemView.setOnLongClickListener{
-            editCallback(current)
+            deleteCallback(current)
             return@setOnLongClickListener true
+        }
+        holder.itemView.setOnClickListener {
+            editCallback(current)
         }
     }
 

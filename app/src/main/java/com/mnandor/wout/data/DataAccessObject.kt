@@ -80,4 +80,6 @@ interface DataAccessObject {
     @Query("UPDATE completion SET exercise = :newName WHERE exercise = :oldName")
     fun updateExerciseNameInCompletions(oldName: String, newName: String)
 
+    @Delete
+    fun deleteExerciseTemplate(exercise: Exercise)
 }

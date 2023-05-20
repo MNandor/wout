@@ -1,11 +1,13 @@
 package com.mnandor.wout.presentation.exercises
 
 import android.app.Dialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.WoutApplication
@@ -43,6 +45,11 @@ class ExercisesActivity : AppCompatActivity() {
             editExerciseName(it)
         }
 
+        adapter.setDeleteCallback {
+            deleteExerciseLog(it)
+        }
+
+
         setClickListeners()
     }
 
@@ -76,6 +83,18 @@ class ExercisesActivity : AppCompatActivity() {
 
 
         settingsDialog.show()
+    }
+
+    public fun deleteExerciseLog(exercise: Exercise){
+        AlertDialog.Builder(this)
+            .setTitle(exercise.name)
+            .setMessage("Do you really want to delete this exercise type?")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes,
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    viewModel.delete(exercise)
+                })
+            .setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun setClickListeners(){

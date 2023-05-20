@@ -73,14 +73,6 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
 
     }
 
-    fun callDeleteCallback(item: Completion){
-        deleteCallback(item)
-    }
-
-    fun callEditCallback(item: Completion){
-        editCallback(item)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseLogViewHolder {
         return ExerciseLogViewHolder.create(parent, viewType)
     }
@@ -90,11 +82,11 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
             val current = holeyItems[position]!!
             holder.bind(current)
             holder.itemView.setOnLongClickListener{
-                callDeleteCallback(current)
+                deleteCallback(current)
                 return@setOnLongClickListener true
             }
             holder.itemView.setOnClickListener {
-                callEditCallback(current)
+                editCallback(current)
             }
         } else {
             holder.bind(holeyDates[position]!!)
