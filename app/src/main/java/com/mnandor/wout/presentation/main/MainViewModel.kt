@@ -1,9 +1,13 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.*
+import com.mnandor.wout.DateUtility
 import com.mnandor.wout.data.ExerciseDatabase
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
+import com.mnandor.wout.data.entities.KeyValue
+import com.mnandor.wout.data.entities.ScheduleDay
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -12,12 +16,60 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val filter = MutableLiveData<String>()
 
+
     fun setFilter(filterStr: String){
         GlobalScope.launch { filter.postValue(filterStr) }
     }
 
     val allVisibleTemplates: LiveData<List<Exercise>> = filter.switchMap {
         database.dao().getNonhiddenTemplates(it).asLiveData()
+    }
+
+
+    val locationSetting = MutableLiveData<String>()
+    fun loadLocationSetting(){
+        GlobalScope.launch {
+            val today = DateUtility.getToday()
+            val lastDay = database.dao().getValue("lastDay")
+
+            Log.d("nandorss", today+" - "+lastDay)
+
+            // if the day was set already today, use it
+            var day:ScheduleDay?
+            if (today == lastDay){
+                day = database.dao().getDayByNumber(-1)
+            } else {
+
+                val total = database.dao().getValue("scheduleTotal")?.toInt() ?: 1
+                val offset = database.dao().getValue("scheduleOffset")?.toInt() ?: 1
+
+                var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total
+                value = (value-1+total) % total
+
+                Log.d("nandorss", "Get schedule "+value.toString())
+
+                day = database.dao().getDayByNumber(value)
+
+                if (day == null){
+                    // No value set for this day
+                    locationSetting.postValue("All")
+                    return@launch
+                }
+
+                val settableDay = ScheduleDay(-1, day.location, day.exercises)
+                database.dao().setDaySchedule(settableDay)
+//                database.dao().setValue(KeyValue("lastDay", today))
+            }
+
+            Log.d("nandorss", ">"+day.toString())
+
+            val location = database.dao().getLocationByID(day.location)
+
+            Log.d("nandorss", ">"+location.toString())
+
+            locationSetting.postValue(location.template)
+
+        }
     }
 
 
@@ -39,6 +91,25 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     fun updateExerciseLog(log: Completion){
         GlobalScope.launch { database.dao().updateLog(log)}
+    }
+
+    val openCount = MutableLiveData<String>()
+    fun storeAppOpened(){
+
+        GlobalScope.launch {
+            val last:String? = database.dao().getValue("openCounter")
+
+            if (last != null) {
+                val next = (last.toInt()+1).toString()
+                database.dao().setValue(KeyValue("openCounter", next))
+                openCount.postValue(next)
+
+            } else {
+                database.dao().setValue(KeyValue("openCounter", "1"))
+                openCount.postValue("1")
+            }
+
+        }
     }
 
     public fun calculateTrendline(template: Exercise){
@@ -83,6 +154,10 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
             trendlinePrediction.postValue(predict.roundToInt())
 
         }
+
+    }
+
+    fun figureOutTodaysLocation(){
 
     }
 }

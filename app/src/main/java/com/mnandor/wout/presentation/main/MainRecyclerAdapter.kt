@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.main
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ExerciseLogsAdapter : RecyclerView.Adapter<ExerciseLogsAdapter.ExerciseLogViewHolder>() {
+class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLogViewHolder>() {
 
 
 

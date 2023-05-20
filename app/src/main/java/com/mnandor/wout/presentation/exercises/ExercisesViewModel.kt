@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.exercises
 
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
@@ -6,7 +6,7 @@ import com.mnandor.wout.data.entities.Exercise
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ConfigViewModel(private val database: ExerciseDatabase) : ViewModel() {
+class ExercisesViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val allTemplates: LiveData<List<Exercise>> = database.dao().getTemplates().asLiveData()
 
@@ -14,13 +14,20 @@ class ConfigViewModel(private val database: ExerciseDatabase) : ViewModel() {
         // todo obvious workaround is obvious
         GlobalScope.launch { database.dao().addExerciseTemplate(template)}
     }
+
+    fun rename(oldName:String, newName: String){
+        GlobalScope.launch {
+            database.dao().updateExerciseName(oldName, newName)
+            database.dao().updateExerciseNameInCompletions(oldName, newName)
+        }
+    }
 }
 
-class ConfigViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
+class ExercisesViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ConfigViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ExercisesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ConfigViewModel(database) as T
+            return ExercisesViewModel(database) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

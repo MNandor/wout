@@ -1,24 +1,28 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.locations
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.databinding.ActivityTemplatesBinding
 
-class TemplatesActivity : AppCompatActivity() {
+class LocationsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTemplatesBinding
     private var templates: List<Exercise>? = null
     private var currentExercise: Exercise? = null
 
-    private val templatesViewModel: TemplatesViewModel by viewModels {
-        TemplatesViewModelFactory((application as WoutApplication).database)
+    private val viewModel: LocationsViewModel by viewModels {
+        LocationsViewModelFactory((application as WoutApplication).database)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +34,11 @@ class TemplatesActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        templatesViewModel.allVisibleTemplates.observe(this, Observer { items ->
+        viewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
+                R.layout.spinner_item,
+                items.map { it->it.name }
             )
 
             binding.exerciseDropdown2.adapter = adapter
@@ -45,20 +50,32 @@ class TemplatesActivity : AppCompatActivity() {
         })
 
         val recyclerView = binding.templatesRecycle
-        val adapter = LocationsAdapter()
-        //adapter.setDeleteCallback { deleteExerciseLog(it) }
+        val adapter = LocationsRecyclerAdapter()
+        adapter.setDeleteCallback { deleteLocation(it) }
         //adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        templatesViewModel.allLocations.observe(this, Observer { items ->
+        viewModel.allLocations.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
             recyclerView.scrollToPosition(items.size-1)
         })
 
         setClickListeners()
+    }
+
+    public fun deleteLocation(location: Location){
+        AlertDialog.Builder(this)
+            .setTitle(location.template+" - "+location.exercise)
+            .setMessage("Do you really want to delete this?")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes,
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    viewModel.remove(location)
+                })
+            .setNegativeButton(android.R.string.no, null).show()
     }
 
     private fun setClickListeners(){
@@ -73,7 +90,7 @@ class TemplatesActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            templatesViewModel.insert(Location(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
+            viewModel.insert(Location(0, currentExercise!!.name, binding.editTextTextPersonName.text.toString()))
         }
 
     }

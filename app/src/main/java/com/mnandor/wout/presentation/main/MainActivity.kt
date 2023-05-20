@@ -1,11 +1,12 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.main
 
-import android.R
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,13 +14,18 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
+import com.mnandor.wout.presentation.exercises.ExercisesActivity
+import com.mnandor.wout.presentation.schedule.ScheduleActivity
+import com.mnandor.wout.presentation.locations.LocationsActivity
 import java.text.SimpleDateFormat
 
 
@@ -29,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private var templates: List<Exercise>? = null
     private var dayTemplates: List<String>? = null
 
-    private val mainViewModel: MainViewModel by viewModels {
+    private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as WoutApplication).database)
     }
 
@@ -43,10 +49,10 @@ class MainActivity : AppCompatActivity() {
         setClickListeners()
 
 
-        mainViewModel.allVisibleTemplates.observe(this, Observer { items ->
+        viewModel.allVisibleTemplates.observe(this, Observer { items ->
             val adapter = ArrayAdapter<String>(
                 this,
-                R.layout.simple_spinner_dropdown_item, items.map { it->it.name }
+                R.layout.spinner_item, items.map { it->it.name }
             )
 
             binding.exerciseDropdown.adapter = adapter
@@ -56,25 +62,32 @@ class MainActivity : AppCompatActivity() {
             templates = items
         })
 
-        mainViewModel.trendlinePrediction.observe(this, Observer{
+        viewModel.trendlinePrediction.observe(this, Observer{
             binding.repCountET.setHint("/"+it.toString())
         })
 
 
+        viewModel.openCount.observe(this, Observer {
+//            Toast.makeText(this, "You have opened the app "+it+" times.", Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.storeAppOpened()
+
+
         val recyclerView = binding.exerciseLogsRecycle
-        val adapter = ExerciseLogsAdapter()
+        val adapter = MainRecyclerAdapter()
         adapter.setDeleteCallback { deleteExerciseLog(it) }
         adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        mainViewModel.allLogs.observe(this, Observer { items ->
+        viewModel.allLogs.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
-            recyclerView.scrollToPosition(items.size-1)
+            recyclerView.scrollToPosition(items.size)
         })
 
-        mainViewModel.allDayTemplates.observe(this, Observer { items ->
+        viewModel.allDayTemplates.observe(this, Observer { items ->
             val itemsMut = items.toMutableList()
 
             binding.dayTemplateSelector.isEnabled = items.isNotEmpty()
@@ -83,7 +96,8 @@ class MainActivity : AppCompatActivity() {
 
             val adapter = ArrayAdapter<String>(
                 this,
-                R.layout.simple_spinner_dropdown_item, itemsMut
+                R.layout.spinner_item,
+                itemsMut
             )
 
             binding.dayTemplateSelector.adapter = adapter
@@ -91,7 +105,15 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
 
             dayTemplates = itemsMut
+
+            viewModel.loadLocationSetting()
         })
+
+        viewModel.locationSetting.observe(this, Observer {
+            dayTemplates?.let { it1 -> binding.dayTemplateSelector.setSelection(it1.indexOf(it)) }
+            binding.dayTemplateSelector.adapter
+        })
+
     }
 
     private fun setClickListeners(){
@@ -100,7 +122,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.addButton.setOnLongClickListener {
-            openConfigActivity()
+            openSettingsPopup(it)
+
             return@setOnLongClickListener true // yes, consume event
         }
 
@@ -114,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainViewModel.setFilter("All")
         binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()
@@ -122,10 +144,37 @@ class MainActivity : AppCompatActivity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
                 if (dayTemplates?.size != 0)
-                    mainViewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
+                    viewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
+
             }
         }
     }
+
+    private fun openSettingsPopup(popupButton: View) {
+        val popupMenu = PopupMenu(this, popupButton)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
+            when (item?.itemId) {
+                R.id.exercises -> {
+                    openConfigActivity()
+                    // Navigate to Exercises activity
+                    true
+                }
+                R.id.locations -> {
+                    // Navigate to Locations activity
+                    openTemplatesActivity()
+                    true
+                }
+                R.id.schedule -> {
+                    openScheduleActivity()
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
 
     private var selectedItem: Exercise? = null
 
@@ -148,8 +197,7 @@ class MainActivity : AppCompatActivity() {
         binding.repCountET.text.clear()
 
         if (item!!.usesRepCount){
-            Toast.makeText(this, "toasty", Toast.LENGTH_SHORT).show()
-            mainViewModel.calculateTrendline(item)
+            viewModel.calculateTrendline(item)
         }
 
     }
@@ -169,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val currentTime = sdf.format(Calendar.getInstance().time)
 
-        mainViewModel.insert(
+        viewModel.insert(
             Completion(
             currentTime,
             binding.exerciseDropdown.selectedItem.toString(),
@@ -185,18 +233,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openConfigActivity(){
-        val intent = Intent(this, ConfigActivity::class.java)
+        val intent = Intent(this, ExercisesActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openTemplatesActivity(){
+        val intent = Intent(this, LocationsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openScheduleActivity(){
+        val intent = Intent(this, ScheduleActivity::class.java)
         startActivity(intent)
     }
 
     public fun deleteExerciseLog(completion: Completion){
         AlertDialog.Builder(this)
             .setTitle(completion.exercise)
-            .setMessage("Do you really want to empty the exercise log?")
+            .setMessage("Do you really want to delete this exercise log?")
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setPositiveButton(android.R.string.yes,
                 DialogInterface.OnClickListener { dialog, whichButton ->
-                    mainViewModel.deleteExerciseLog(completion)
+                    viewModel.deleteExerciseLog(completion)
                 })
             .setNegativeButton(android.R.string.no, null).show()
     }
@@ -235,7 +293,7 @@ class MainActivity : AppCompatActivity() {
                     reps = dialogRepCountET.text.toString().toIntOrNull(),
                 )
 
-                mainViewModel.updateExerciseLog(newLog)
+                viewModel.updateExerciseLog(newLog)
                 settingsDialog.dismiss()
 
             }

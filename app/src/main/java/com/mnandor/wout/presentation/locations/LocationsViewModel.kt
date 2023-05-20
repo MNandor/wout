@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.locations
 
 import androidx.lifecycle.*
 import com.mnandor.wout.data.ExerciseDatabase
@@ -7,7 +7,7 @@ import com.mnandor.wout.data.entities.Location
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class TemplatesViewModel(private val database: ExerciseDatabase) : ViewModel() {
+class LocationsViewModel(private val database: ExerciseDatabase) : ViewModel() {
     val allVisibleTemplates: LiveData<List<Exercise>> = database.dao().getTemplates().asLiveData()
     val allLocations: LiveData<List<Location>> = database.dao().getDayTemplates().asLiveData()
 
@@ -23,11 +23,11 @@ class TemplatesViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
 }
 
-class TemplatesViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
+class LocationsViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TemplatesViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(LocationsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TemplatesViewModel(database) as T
+            return LocationsViewModel(database) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -1,9 +1,7 @@
 package com.mnandor.wout.data
 
 import androidx.room.*
-import com.mnandor.wout.data.entities.Exercise
-import com.mnandor.wout.data.entities.Location
-import com.mnandor.wout.data.entities.Completion
+import com.mnandor.wout.data.entities.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -12,7 +10,7 @@ interface DataAccessObject {
     @Query("SELECT * FROM exercise ORDER BY isDisabled ASC, name ASC")
     fun getTemplates(): Flow<List<Exercise>>
 
-    @Query("SELECT exercise.* FROM exercise LEFT JOIN location ON exercise == name WHERE (location = :filter or :filter = 'All') AND isDisabled != 1 ORDER BY name ASC")
+    @Query("SELECT exercise.* FROM exercise LEFT JOIN location ON exercise == name WHERE (location = :filter or :filter = 'All') AND isDisabled != 1 GROUP BY exercise.name ORDER BY name ASC")
     fun getNonhiddenTemplates(filter: String): Flow<List<Exercise>>
 
     // todo suspend should work in this function
@@ -43,7 +41,43 @@ interface DataAccessObject {
     @Query("SELECT * FROM location ORDER BY location DESC, exercise ASC")
     fun getDayTemplates(): Flow<List<Location>>
 
+    @Query("SELECT * FROM location GROUP BY location ORDER BY location DESC, exercise ASC")
+    fun getUniqueDayTemplates(): Flow<List<Location>>
+
     @Query("SELECT DISTINCT location FROM location")
     fun getDayTemplateNames(): Flow<List<String>>
+
+    @Query("SELECT value FROM kvpairs WHERE `key` = :key")
+    fun getValue(key: String): String?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun setValue(keyValue: KeyValue)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun setDaySchedule(dayScheduleDay: ScheduleDay)
+
+    @Query("SELECT * from scheduleday ORDER BY day")
+    fun getDaySchedules(): Flow<List<ScheduleDay>>
+
+    @Query("SELECT * from scheduleday WHERE day = :day")
+    fun getDayByNumber(day: Int): ScheduleDay
+
+    @Query("UPDATE scheduleday SET location = :location WHERE day = :day")
+    fun updateScheduleDay(location: Int, day: Int)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addScheduleDay(scheduleDay: ScheduleDay)
+
+    @Query("DELETE FROM scheduleday WHERE day = :day")
+    fun removeScheduleDayData(day: Int)
+
+    @Query("SELECT * FROM location WHERE itemID = :id")
+    fun getLocationByID(id: Int): Location
+
+    @Query("UPDATE exercise SET name = :newName WHERE name = :oldName")
+    fun updateExerciseName(oldName: String, newName: String)
+
+    @Query("UPDATE completion SET exercise = :newName WHERE exercise = :oldName")
+    fun updateExerciseNameInCompletions(oldName: String, newName: String)
 
 }

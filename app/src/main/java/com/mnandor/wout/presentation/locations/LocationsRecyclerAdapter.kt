@@ -1,4 +1,4 @@
-package com.mnandor.wout.presentation
+package com.mnandor.wout.presentation.locations
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import com.mnandor.wout.R
 import com.mnandor.wout.data.entities.Location
 import java.time.LocalDate
 
-class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
+class LocationsRecyclerAdapter : RecyclerView.Adapter<LocationsRecyclerAdapter.LocationsViewHolder>() {
 
     companion object{
         val TYPE_TEMPLATE = 0
@@ -73,7 +73,7 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHold
     class LocationsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         fun bind(item: Location) {
-            itemView.findViewById<TextView>(R.id.dayTemplateName).text = item.template
+            itemView.findViewById<TextView>(R.id.scheduleDate).text = item.template
             itemView.findViewById<TextView>(R.id.dayTemplateExercise).text = item.exercise
 
         }
