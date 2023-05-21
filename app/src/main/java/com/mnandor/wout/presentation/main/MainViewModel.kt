@@ -24,14 +24,14 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
         GlobalScope.launch {
 
+            filter.postValue(filterStr)
+
             if (filterStr == "All"){
                 database.dao().deleteScheduleDayByID(-1)
                 return@launch
             }
 
             val today = DateUtility.getToday()
-
-            filter.postValue(filterStr)
 
             database.dao().setValue(KeyValue("lastDay", today))
 
@@ -178,9 +178,6 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     }
 
-    fun figureOutTodaysLocation(){
-
-    }
 }
 
 class MainViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
