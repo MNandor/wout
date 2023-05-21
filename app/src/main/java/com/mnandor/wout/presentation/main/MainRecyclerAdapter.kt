@@ -170,8 +170,10 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
     @Override
     override fun getItemViewType(position: Int): Int {
         if (holeyDates[position] == null) {
-            val nextMatch:Boolean = position+1 < holeyItems.size && holeyItems[position+1] != null
-            val prevMatch:Boolean = position-1 >= 0 && holeyItems[position-1] != null
+            val nextMatch:Boolean = position+1 < holeyItems.size && holeyItems[position+1] != null &&
+                    holeyItems[position]?.exercise ?: null == holeyItems[position+1]?.exercise ?: null
+            val prevMatch:Boolean = position-1 >= 0 && holeyItems[position-1] != null &&
+                    holeyItems[position]?.exercise ?: null == holeyItems[position-1]?.exercise ?: null
 
             if (nextMatch && prevMatch)
                 return TYPE_ITEM_MIDDLE
