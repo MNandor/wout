@@ -49,17 +49,25 @@ class MainActivity : AppCompatActivity() {
         setClickListeners()
 
 
+        val adapter = MainRecyclerAdapter()
+
         viewModel.allVisibleTemplates.observe(this, Observer { items ->
-            val adapter = ArrayAdapter<String>(
+            val aadapter = ArrayAdapter<String>(
                 this,
                 R.layout.spinner_item, items.map { it->it.name }
             )
 
-            binding.exerciseDropdown.adapter = adapter
+            binding.exerciseDropdown.adapter = aadapter
 
-            adapter.notifyDataSetChanged()
+            aadapter.notifyDataSetChanged()
 
             templates = items
+
+            adapter.setRelevantExercises(items.map { it.name })
+            adapter.notifyDataSetChanged()
+
+            Log.d("nandorsss", items.toString())
+
         })
 
         viewModel.trendlinePrediction.observe(this, Observer{
@@ -75,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val recyclerView = binding.exerciseLogsRecycle
-        val adapter = MainRecyclerAdapter()
+
         adapter.setDeleteCallback { deleteExerciseLog(it) }
         adapter.setEditCallback { editExerciseLog(it) }
         recyclerView.adapter = adapter

@@ -27,6 +27,7 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
     private var items:List<Completion> = listOf()
     private lateinit var deleteCallback: (Completion) -> Unit
     private lateinit var editCallback: (Completion) -> Unit
+    private var relevantExercises:List<String> = listOf()
 
     var dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -37,6 +38,10 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
 
     fun setEditCallback(callback: (Completion) -> Unit){
         editCallback = callback
+    }
+
+    fun setRelevantExercises(exercises: List<String>){
+        relevantExercises = exercises
     }
 
 
@@ -91,6 +96,10 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
             holder.itemView.setOnClickListener {
                 editCallback(current)
             }
+            if (relevantExercises.contains(current.exercise))
+                holder.itemView.alpha = 1F
+            else
+                holder.itemView.alpha = 0.5F
         } else {
             holder.bind(holeyDates[position]!!)
 
@@ -124,7 +133,6 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
             if (item.weight != null) textLogInfo.text = textLogInfo.text.toString()+" Weight: "+item.weight.toString()
             if (item.sets != null) textLogInfo.text = textLogInfo.text.toString()+" Sets: "+item.sets.toString()
             if (item.reps != null) textLogInfo.text = textLogInfo.text.toString()+" Reps: "+item.reps.toString()
-
 
         }
 
