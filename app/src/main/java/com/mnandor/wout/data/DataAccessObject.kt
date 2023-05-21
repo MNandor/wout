@@ -82,4 +82,10 @@ interface DataAccessObject {
 
     @Delete
     fun deleteExerciseTemplate(exercise: Exercise)
+
+    @Query("SELECT * FROM location WHERE location = :name")
+    fun getLocationByName(name:String):Location
+
+    @Query("DELETE FROM scheduleday WHERE day = :id")
+    fun deleteScheduleDayByID(id: Int)
 }

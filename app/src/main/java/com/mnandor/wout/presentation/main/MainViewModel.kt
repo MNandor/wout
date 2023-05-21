@@ -9,6 +9,7 @@ import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.data.entities.KeyValue
 import com.mnandor.wout.data.entities.ScheduleDay
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -18,7 +19,30 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
 
     fun setFilter(filterStr: String){
-        GlobalScope.launch { filter.postValue(filterStr) }
+
+        Log.d("nandorsss", filterStr)
+
+        GlobalScope.launch {
+
+            if (filterStr == "All"){
+                database.dao().deleteScheduleDayByID(-1)
+                return@launch
+            }
+
+            val today = DateUtility.getToday()
+
+            filter.postValue(filterStr)
+
+            database.dao().setValue(KeyValue("lastDay", today))
+
+            val loc = database.dao().getLocationByName(filterStr)
+
+            Log.d("nandorsss", loc.toString())
+
+            val settableDay = ScheduleDay(-1, loc.itemID, "")
+            database.dao().addScheduleDay(settableDay)
+
+        }
     }
 
     val allVisibleTemplates: LiveData<List<Exercise>> = filter.switchMap {
@@ -32,7 +56,7 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
             val today = DateUtility.getToday()
             val lastDay = database.dao().getValue("lastDay")
 
-            Log.d("nandorss", today+" - "+lastDay)
+            Log.d("nandorsss", today+" - "+lastDay)
 
             // if the day was set already today, use it
             var day:ScheduleDay?
@@ -46,19 +70,16 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
                 var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total
                 value = (value-1+total) % total
 
-                Log.d("nandorss", "Get schedule "+value.toString())
+                Log.d("nandorsss", "Get schedule "+value.toString())
 
                 day = database.dao().getDayByNumber(value)
 
-                if (day == null){
-                    // No value set for this day
-                    locationSetting.postValue("All")
-                    return@launch
-                }
+            }
 
-                val settableDay = ScheduleDay(-1, day.location, day.exercises)
-                database.dao().setDaySchedule(settableDay)
-//                database.dao().setValue(KeyValue("lastDay", today))
+            if (day == null){
+                // No value set for this day
+                locationSetting.postValue("All")
+                return@launch
             }
 
             Log.d("nandorss", ">"+day.toString())
