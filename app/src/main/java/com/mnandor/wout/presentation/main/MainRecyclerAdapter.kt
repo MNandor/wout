@@ -16,11 +16,11 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
 
 
     companion object{
-        val TYPE_ITEM = 0
-        val TYPE_SEPARATOR = 1
-        val TYPE_ITEM_TOP = 2
-        val TYPE_ITEM_BOTTOM = 3
-        val TYPE_ITEM_MIDDLE = 4
+        const val TYPE_ITEM = 0
+        const val TYPE_SEPARATOR = 1
+        const val TYPE_ITEM_TOP = 2
+        const val TYPE_ITEM_BOTTOM = 3
+        const val TYPE_ITEM_MIDDLE = 4
     }
 
 
@@ -144,31 +144,36 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
         companion object {
             fun create(parent: ViewGroup, type: Int): ExerciseLogViewHolder {
 
-                if (type == TYPE_ITEM){
-                    val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_exercise_log, parent, false)
-                    return ExerciseLogViewHolder(view)
-                } else if (type == TYPE_ITEM_TOP) {
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_exercise_log_top, parent, false)
-                    return ExerciseLogViewHolder(view)
+                when (type) {
+                    TYPE_ITEM -> {
+                        val view: View = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.item_exercise_log, parent, false)
+                        return ExerciseLogViewHolder(view)
+                    }
+                    TYPE_ITEM_TOP -> {
+                        val view = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.item_exercise_log_top, parent, false)
+                        return ExerciseLogViewHolder(view)
 
-                } else if (type == TYPE_ITEM_BOTTOM){
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_exercise_log_bottom, parent, false)
-                    return ExerciseLogViewHolder(view)
-                } else if (type == TYPE_ITEM_MIDDLE){
-                    val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_exercise_log_middle, parent, false)
-                    return ExerciseLogViewHolder(view)
-                }
-                else {
-                    val view: View = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_log_date_separator, parent, false)
-                    val vh = ExerciseLogViewHolder(view)
-                    vh.isSeparator = true
+                    }
+                    TYPE_ITEM_BOTTOM -> {
+                        val view = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.item_exercise_log_bottom, parent, false)
+                        return ExerciseLogViewHolder(view)
+                    }
+                    TYPE_ITEM_MIDDLE -> {
+                        val view = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.item_exercise_log_middle, parent, false)
+                        return ExerciseLogViewHolder(view)
+                    }
+                    else -> {
+                        val view: View = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.item_log_date_separator, parent, false)
+                        val vh = ExerciseLogViewHolder(view)
+                        vh.isSeparator = true
 
-                    return vh
+                        return vh
+                    }
                 }
 
             }
