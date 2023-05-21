@@ -18,6 +18,9 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
     companion object{
         val TYPE_ITEM = 0
         val TYPE_SEPARATOR = 1
+        val TYPE_ITEM_TOP = 2
+        val TYPE_ITEM_BOTTOM = 3
+        val TYPE_ITEM_MIDDLE = 4
     }
 
 
@@ -137,6 +140,19 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
                     val view: View = LayoutInflater.from(parent.context)
                         .inflate(R.layout.item_exercise_log, parent, false)
                     return ExerciseLogViewHolder(view)
+                } else if (type == TYPE_ITEM_TOP) {
+                    val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_exercise_log_top, parent, false)
+                    return ExerciseLogViewHolder(view)
+
+                } else if (type == TYPE_ITEM_BOTTOM){
+                    val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_exercise_log_bottom, parent, false)
+                    return ExerciseLogViewHolder(view)
+                } else if (type == TYPE_ITEM_MIDDLE){
+                    val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_exercise_log_middle, parent, false)
+                    return ExerciseLogViewHolder(view)
                 }
                 else {
                     val view: View = LayoutInflater.from(parent.context)
@@ -153,10 +169,17 @@ class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.ExerciseLog
 
     @Override
     override fun getItemViewType(position: Int): Int {
-        if (holeyDates[position] == null)
-            return TYPE_ITEM
-        else
+        if (holeyDates[position] == null) {
+            if (position % 3 == 1)
+                return TYPE_ITEM_TOP
+            else if (position % 3 == 2)
+                return TYPE_ITEM_MIDDLE
+            else
+                return TYPE_ITEM_BOTTOM
+        }
+        else{
             return TYPE_SEPARATOR
+        }
     }
 
 }
