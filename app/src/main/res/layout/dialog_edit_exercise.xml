@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
@@ -42,7 +43,7 @@
         android:backgroundTint="@color/firebrick"
         android:text="Cancel"
         app:layout_constraintStart_toStartOf="@+id/dialogLogDateET"
-        app:layout_constraintTop_toBottomOf="@+id/dialogLogDateET" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
     <Button
         android:id="@+id/dialogChangeButton"
@@ -51,6 +52,18 @@
         android:backgroundTint="@color/buff"
         android:text="Change"
         app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:hint="Notes"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET"
+        app:layout_constraintStart_toStartOf="@+id/dialogLogDateET"
         app:layout_constraintTop_toBottomOf="@+id/dialogLogDateET" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
