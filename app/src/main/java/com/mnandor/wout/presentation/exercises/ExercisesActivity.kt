@@ -116,7 +116,8 @@ class ExercisesActivity : AppCompatActivity() {
                 switchMass.isChecked,
                 switchSets.isChecked,
                 switchReps.isChecked,
-                false
+                false,
+                    null
             )
             )
         }

@@ -17,4 +17,6 @@ data class Exercise(
 
     val isDisabled: Boolean,
 
+    val notes: String?
+
 )
