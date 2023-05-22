@@ -71,10 +71,13 @@ class ExercisesActivity : AppCompatActivity() {
                 val newName = dialogLogDateET.text.toString()
 
                 viewModel.rename(oldName, newName)
+                viewModel.setExerciseNotes(newName, dialogExerciseNotesET.text.toString())
 
                 settingsDialog.dismiss()
 
             }
+
+            dialogExerciseNotesET.setText(exercise.notes?:"")
         }
 
 

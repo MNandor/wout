@@ -77,6 +77,9 @@ interface DataAccessObject {
     @Query("UPDATE exercise SET name = :newName WHERE name = :oldName")
     fun updateExerciseName(oldName: String, newName: String)
 
+    @Query("UPDATE exercise SET notes = :notes WHERE name = :name")
+    fun updateExerciseNotes(name:String, notes:String)
+
     @Query("UPDATE completion SET exercise = :newName WHERE exercise = :oldName")
     fun updateExerciseNameInCompletions(oldName: String, newName: String)
 

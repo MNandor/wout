@@ -22,6 +22,12 @@ class ExercisesViewModel(private val database: ExerciseDatabase) : ViewModel() {
         }
     }
 
+    fun setExerciseNotes(name:String, notes:String){
+        GlobalScope.launch {
+            database.dao().updateExerciseNotes(name, notes)
+        }
+    }
+
     fun delete(exercise: Exercise){
         GlobalScope.launch {
             database.dao().deleteExerciseTemplate(exercise)

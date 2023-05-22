@@ -18,7 +18,7 @@
     <EditText
         android:id="@+id/dialogLogDateET"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -43,7 +43,7 @@
         android:backgroundTint="@color/firebrick"
         android:text="Cancel"
         app:layout_constraintStart_toStartOf="@+id/dialogLogDateET"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogExerciseNotesET" />
 
     <Button
         android:id="@+id/dialogChangeButton"
@@ -52,12 +52,12 @@
         android:backgroundTint="@color/buff"
         android:text="Change"
         app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/dialogExerciseNotesET" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/dialogExerciseNotesET"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="3dp"
         android:ems="10"
         android:hint="Notes"
