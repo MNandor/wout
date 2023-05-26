@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -51,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         val adapter = MainRecyclerAdapter()
 
         viewModel.allVisibleTemplates.observe(this, Observer { items ->
+            if (items == templates)
+                return@Observer
+
             val aadapter = ArrayAdapter<String>(
                 this,
                 R.layout.spinner_item, items.map { it->it.name }
@@ -103,6 +107,18 @@ class MainActivity : AppCompatActivity() {
             binding.todayIsSelector.setSelection(it)
         })
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("selection", binding.exerciseDropdown.selectedItemPosition)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.getInt("selection")?.let {
+            binding.exerciseDropdown.setSelection(it)
+        }
     }
 
     override fun onResume() {
