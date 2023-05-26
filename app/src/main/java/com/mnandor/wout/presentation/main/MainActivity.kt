@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var templates: List<Exercise>? = null
-    private var dayTemplates: List<String>? = null
 
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory((application as WoutApplication).database)
@@ -96,35 +95,18 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.allDayTemplates.observe(this, Observer { items ->
-            val itemsMut = items.toMutableList()
-
-            binding.dayTemplateSelector.isEnabled = items.isNotEmpty()
-
-            itemsMut.add("All")
-
-            val adapter = ArrayAdapter<String>(
-                this,
-                R.layout.spinner_item,
-                itemsMut
-            )
-
-            binding.dayTemplateSelector.adapter = adapter
-
-            adapter.notifyDataSetChanged()
-
-            dayTemplates = itemsMut
+           binding.todayIsSelector.setItems(items)
 
             viewModel.loadLocationSetting()
         })
 
         viewModel.locationSetting.observe(this, Observer {
-            dayTemplates?.let { it1 -> binding.dayTemplateSelector.setSelection(it1.indexOf(it)) }
-            binding.dayTemplateSelector.adapter
+            binding.todayIsSelector.setSelection(it)
         })
 
     }
 
-    private fun setClickListeners(){
+    private fun setClickListeners() {
         binding.addButton.setOnClickListener {
             addExerciseLog()
         }
@@ -135,26 +117,19 @@ class MainActivity : AppCompatActivity() {
             return@setOnLongClickListener true // yes, consume event
         }
 
-        binding.exerciseDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+        binding.exerciseDropdown.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    if (templates?.size != 0)
+                        updateUIAfterDropdown(templates?.get(binding.exerciseDropdown.selectedItemPosition))
+                }
             }
 
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
-                if (templates?.size != 0)
-                    updateUIAfterDropdown(templates?.get(binding.exerciseDropdown.selectedItemPosition))
-            }
-        }
-
-        binding.dayTemplateSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                //Toast.makeText(this@MainActivity, "*", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long){
-                if (dayTemplates?.size != 0)
-                    viewModel.setFilter(dayTemplates?.get(binding.dayTemplateSelector.selectedItemPosition)!!)
-
-            }
+        binding.todayIsSelector.setCallback {
+            viewModel.setFilter(it)
         }
     }
 
