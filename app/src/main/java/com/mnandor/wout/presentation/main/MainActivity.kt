@@ -112,10 +112,24 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("selection", binding.exerciseDropdown.selectedItemPosition)
+        outState.putString("timeET", binding.timeET.text.toString())
+        outState.putString("distanceET", binding.distanceET.text.toString())
+        outState.putString("massET", binding.weightET.text.toString())
+        outState.putString("setsET", binding.setCountET.text.toString())
+        outState.putString("repsET", binding.repCountET.text.toString())
     }
 
+    private var dontClear = false
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+
+        dontClear = true
+        savedInstanceState.getString("timeET")?.let {binding.timeET.setText(it)}
+        savedInstanceState.getString("distanceET")?.let {binding.distanceET.setText(it)}
+        savedInstanceState.getString("massET")?.let {binding.weightET.setText(it)}
+        savedInstanceState.getString("setsET")?.let {binding.setCountET.setText(it)}
+        savedInstanceState.getString("repsET")?.let {binding.repCountET.setText(it)}
+
         savedInstanceState.getInt("selection")?.let {
             binding.exerciseDropdown.setSelection(it)
         }
@@ -193,11 +207,16 @@ class MainActivity : AppCompatActivity() {
         binding.setCountET.visibility = if (item!!.usesSetCount) View.VISIBLE else View.GONE
         binding.repCountET.visibility = if (item!!.usesRepCount) View.VISIBLE else View.GONE
 
-        binding.timeET.text.clear()
-        binding.distanceET.text.clear()
-        binding.weightET.text.clear()
-        binding.setCountET.text.clear()
-        binding.repCountET.text.clear()
+        if (!dontClear){
+            binding.timeET.text.clear()
+            binding.distanceET.text.clear()
+            binding.weightET.text.clear()
+            binding.setCountET.text.clear()
+            binding.repCountET.text.clear()
+
+        }
+        dontClear = false
+
 
         if (item!!.usesRepCount){
             viewModel.calculateTrendline(item)
