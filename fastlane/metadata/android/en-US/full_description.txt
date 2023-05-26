@@ -1,0 +1,17 @@
+<h1>Wout</h1>
+
+Take your fitness journey to the next level with Wout! Our workout tracking app is designed to help you reach your fitness goals and stay motivated along the way.
+
+<h2>Easy to Use</h2>
+
+Our user-friendly interface makes tracking your workouts a breeze. No need to spend hours figuring out how to use the app – Wout has a simple design that lets you log your sets, reps, and weights in no time.
+
+
+<h2>Progresive Overload</h2>
+
+Say goodbye to workout plateaus and hello to progress! Wout uses machine learning to suggest progressive overload, a training principle that gradually increases the demands placed on your body during workouts. With this feature, you'll be able to challenge yourself and reach new heights in your fitness journey.
+
+
+<h2>No Tracking</h2>
+
+We respect your privacy, which is why Wout doesn't track any personal information. Your workouts are stored locally on your device, so you can trust that your data is safe and secure.
