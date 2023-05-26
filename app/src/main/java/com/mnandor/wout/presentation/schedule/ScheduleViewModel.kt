@@ -22,7 +22,6 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     fun setFilter(filterStr: String){
 
-        Log.d("nandorsss", filterStr)
 
         GlobalScope.launch {
 
@@ -37,7 +36,6 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
             val loc = database.dao().getLocationByName(filterStr)
 
-            Log.d("nandorsss", loc.toString())
 
             val settableDay = ScheduleDay(-1, loc.itemID, "")
             database.dao().addScheduleDay(settableDay)
@@ -83,7 +81,6 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
             val today = DateUtility.getToday()
             val lastDay = database.dao().getValue("lastDay")
 
-            Log.d("nandorsss", today+" - "+lastDay)
 
             // if the day was set already today, use it
             var day:ScheduleDay?
@@ -97,7 +94,6 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
                 var value = (offset+ DateUtility.offsetModifier(total) +total).toInt()%total
                 value = (value-1+total) % total
 
-                Log.d("nandorsss", "Get schedule "+value.toString())
 
                 day = database.dao().getDayByNumber(value)
 
@@ -109,11 +105,9 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
                 return@launch
             }
 
-            Log.d("nandorss", ">"+day.toString())
 
             val location = database.dao().getLocationByID(day.location)
 
-            Log.d("nandorss", ">"+location.toString())
 
             locationSetting.postValue(location.template)
 

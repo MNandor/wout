@@ -32,13 +32,11 @@ class ScheduleRecyclerAdapter : RecyclerView.Adapter<ScheduleRecyclerAdapter.Sch
 
         dropDownOptions = itemsMut
 
-        Log.d("nandorss", "Locations: "+options.toString())
 
     }
 
     fun setDropdownValues(values: List<ScheduleDay>){
         dropDownValues = values
-        Log.d("nandorss", "Schedule: "+values.toString())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {

@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             adapter.setRelevantExercises(items.map { it.name })
             adapter.notifyDataSetChanged()
 
-            Log.d("nandorsss", items.toString())
 
         })
 
