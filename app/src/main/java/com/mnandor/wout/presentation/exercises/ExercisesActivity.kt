@@ -84,6 +84,18 @@ class ExercisesActivity : AppCompatActivity() {
     }
 
     private fun setClickListeners(){
+        binding.fab.setOnClickListener {
+            val dialog = EditExerciseDialog(this)
+
+            dialog.setUpdateCallback {
+                viewModel.insert(it)
+            }
+
+            dialog.setCreateMode()
+
+            dialog.show()
+        }
+
         val switchTime = binding.switchTime
         val switchDist = binding.switchDist
         val switchMass = binding.switchMass

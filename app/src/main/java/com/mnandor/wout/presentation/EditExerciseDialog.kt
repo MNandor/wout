@@ -2,7 +2,9 @@ package com.mnandor.wout.presentation
 
 import android.app.Dialog
 import android.content.Context
+import android.opengl.Visibility
 import android.util.Log
+import android.view.View
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.DialogEditExerciseBinding
 
@@ -55,6 +57,35 @@ class EditExerciseDialog(context: Context) : Dialog(context) {
 
 
         }
+    }
+
+    fun setCreateMode(){
+        with(binding){
+            dialogChangeButton.setOnClickListener {
+                val newName = dialogLogDateET.text.toString()
+
+                if (updateCallback != null){
+                    val newex = Exercise(
+                        name = newName,
+                        usesTime = usesTime.isChecked,
+                        usesDistance = usesDistance.isChecked,
+                        usesWeight = usesMass.isChecked,
+                        usesSetCount = usesSets.isChecked,
+                        usesRepCount = usesReps.isChecked,
+                        isDisabled = false,
+                        notes = dialogExerciseNotesET.text.toString()
+                    )
+
+                    updateCallback!!(newex)
+                }
+                dismiss()
+            }
+
+            dialogChangeButton.setText("Add")
+            textView.setText("Add Exercise")
+            dialogLogName.visibility= View.GONE
+        }
+
     }
 
     private var renameCallback: ((String, String) -> Unit)? = null
