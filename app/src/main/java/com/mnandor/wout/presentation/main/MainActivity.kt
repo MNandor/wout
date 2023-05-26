@@ -119,11 +119,11 @@ class MainActivity : AppCompatActivity() {
         outState.putString("repsET", binding.repCountET.text.toString())
     }
 
-    private var dontClear = false
+    private var dontClear = 0
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        dontClear = true
+        dontClear = 1
         savedInstanceState.getString("timeET")?.let {binding.timeET.setText(it)}
         savedInstanceState.getString("distanceET")?.let {binding.distanceET.setText(it)}
         savedInstanceState.getString("massET")?.let {binding.weightET.setText(it)}
@@ -132,6 +132,8 @@ class MainActivity : AppCompatActivity() {
 
         savedInstanceState.getInt("selection")?.let {
             binding.exerciseDropdown.setSelection(it)
+            if (it != 0)
+                dontClear = 2
         }
     }
 
@@ -207,15 +209,15 @@ class MainActivity : AppCompatActivity() {
         binding.setCountET.visibility = if (item!!.usesSetCount) View.VISIBLE else View.GONE
         binding.repCountET.visibility = if (item!!.usesRepCount) View.VISIBLE else View.GONE
 
-        if (!dontClear){
+        if (dontClear == 0){
             binding.timeET.text.clear()
             binding.distanceET.text.clear()
             binding.weightET.text.clear()
             binding.setCountET.text.clear()
             binding.repCountET.text.clear()
 
-        }
-        dontClear = false
+        } else
+            dontClear -= 1
 
 
         if (item!!.usesRepCount){

@@ -20,6 +20,8 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     fun setFilter(filterStr: String){
 
+        if (filterStr == filter.value)
+            return
 
         GlobalScope.launch {
 
