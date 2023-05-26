@@ -16,6 +16,7 @@ import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityConfigBinding
 import com.mnandor.wout.databinding.DialogEditExerciseBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
+import com.mnandor.wout.presentation.EditExerciseDialog
 
 class ExercisesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityConfigBinding
@@ -55,37 +56,19 @@ class ExercisesActivity : AppCompatActivity() {
 
     public fun editExerciseName(exercise: Exercise){
 
-        val settingsDialog = Dialog(this)
+        val dialog = EditExerciseDialog(this)
 
-        val dialogBinding = DialogEditExerciseBinding.inflate(layoutInflater)
-
-        with(dialogBinding){
-            dialogLogName.text = exercise.name
-            dialogLogDateET.setText(exercise.name)
-
-
-            dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
-            dialogChangeButton.setOnClickListener {
-
-                val oldName = exercise.name
-                val newName = dialogLogDateET.text.toString()
-
-                viewModel.rename(oldName, newName)
-                viewModel.setExerciseNotes(newName, dialogExerciseNotesET.text.toString())
-
-                settingsDialog.dismiss()
-
-            }
-
-            dialogExerciseNotesET.setText(exercise.notes?:"")
+        dialog.setRenameCallback{ oldName, newName ->
+            viewModel.rename(oldName, newName)
         }
 
+        dialog.setUpdateCallback {
+            viewModel.updateExercise(it)
+        }
 
+        dialog.setExercise(exercise)
 
-        settingsDialog.setContentView(dialogBinding.root)
-
-
-        settingsDialog.show()
+        dialog.show()
     }
 
     public fun deleteExerciseLog(exercise: Exercise){

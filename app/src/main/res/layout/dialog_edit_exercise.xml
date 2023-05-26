@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/textView"
@@ -13,7 +14,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/dialogLogDateET"
@@ -43,7 +45,7 @@
         android:backgroundTint="@color/firebrick"
         android:text="Cancel"
         app:layout_constraintStart_toStartOf="@+id/dialogLogDateET"
-        app:layout_constraintTop_toBottomOf="@+id/dialogExerciseNotesET" />
+        app:layout_constraintTop_toBottomOf="@+id/usesReps" />
 
     <Button
         android:id="@+id/dialogChangeButton"
@@ -51,8 +53,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/buff"
         android:text="Change"
-        app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET"
-        app:layout_constraintTop_toBottomOf="@+id/dialogExerciseNotesET" />
+        app:layout_constraintBottom_toBottomOf="@+id/dialogCancelButton"
+        app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET" />
 
     <EditText
         android:id="@+id/dialogExerciseNotesET"
@@ -65,5 +67,60 @@
         app:layout_constraintEnd_toEndOf="@+id/dialogLogDateET"
         app:layout_constraintStart_toStartOf="@+id/dialogLogDateET"
         app:layout_constraintTop_toBottomOf="@+id/dialogLogDateET" />
+
+    <Switch
+        android:id="@+id/usesTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Track Time"
+        android:textColor="@color/buff"
+        app:layout_constraintEnd_toEndOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintStart_toStartOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintTop_toBottomOf="@+id/dialogExerciseNotesET"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Switch
+        android:id="@+id/usesDistance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Track Distance"
+        android:textColor="@color/buff"
+        app:layout_constraintEnd_toEndOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintStart_toStartOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintTop_toBottomOf="@+id/usesTime"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Switch
+        android:id="@+id/usesMass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Track Mass"
+        android:textColor="@color/buff"
+        app:layout_constraintEnd_toEndOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintStart_toStartOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintTop_toBottomOf="@+id/usesDistance"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Switch
+        android:id="@+id/usesSets"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Track Sets"
+        android:textColor="@color/buff"
+        app:layout_constraintEnd_toEndOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintStart_toStartOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintTop_toBottomOf="@+id/usesMass"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Switch
+        android:id="@+id/usesReps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Track Reps"
+        android:textColor="@color/buff"
+        app:layout_constraintEnd_toEndOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintStart_toStartOf="@+id/dialogExerciseNotesET"
+        app:layout_constraintTop_toBottomOf="@+id/usesSets"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,4 +91,7 @@ interface DataAccessObject {
 
     @Query("DELETE FROM scheduleday WHERE day = :id")
     fun deleteScheduleDayByID(id: Int)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun updateExercise(exercise: Exercise)
 }

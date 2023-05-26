@@ -33,6 +33,12 @@ class ExercisesViewModel(private val database: ExerciseDatabase) : ViewModel() {
             database.dao().deleteExerciseTemplate(exercise)
         }
     }
+
+    fun updateExercise(exercise: Exercise){
+        GlobalScope.launch {
+            database.dao().updateExercise(exercise)
+        }
+    }
 }
 
 class ExercisesViewModelFactory(private val database: ExerciseDatabase) : ViewModelProvider.Factory {
