@@ -96,34 +96,6 @@ class ExercisesActivity : AppCompatActivity() {
             dialog.show()
         }
 
-        val switchTime = binding.switchTime
-        val switchDist = binding.switchDist
-        val switchMass = binding.switchMass
-        val switchReps = binding.switchReps
-        val switchSets = binding.switchSets
-
-        val exNameET = binding.newExTemplateET
-
-
-        binding.button.setOnClickListener {
-            viewModel.insert(
-                Exercise(
-                exNameET.text.toString(),
-                switchTime.isChecked,
-                switchDist.isChecked,
-                switchMass.isChecked,
-                switchSets.isChecked,
-                switchReps.isChecked,
-                false,
-                    null
-            )
-            )
-        }
-
-        binding.button.setOnLongClickListener {
-            return@setOnLongClickListener true // yes, consume event
-        }
-
     }
 
 

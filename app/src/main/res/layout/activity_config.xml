@@ -20,117 +20,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-        <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingVertical="0dp"
-        android:text="Add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseTemplatesRecycle"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <EditText
-        android:id="@+id/newExTemplateET"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/switchTime"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Switch
-        android:id="@+id/switchTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/switchDist"
-        app:layout_constraintTop_toTopOf="@+id/switchDist" />
-
-    <Switch
-        android:id="@+id/switchDist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/switchMass"
-        app:layout_constraintTop_toTopOf="@+id/switchMass" />
-
-    <Switch
-        android:id="@+id/switchMass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/switchSets"
-        app:layout_constraintTop_toTopOf="@+id/switchSets" />
-
-    <Switch
-        android:id="@+id/switchSets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/switchReps"
-        app:layout_constraintTop_toTopOf="@+id/switchReps" />
-
-    <Switch
-        android:id="@+id/switchReps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time"
-        app:layout_constraintBottom_toTopOf="@+id/switchReps"
-        app:layout_constraintStart_toStartOf="@+id/switchTime" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dist."
-        app:layout_constraintBottom_toTopOf="@+id/switchReps"
-        app:layout_constraintStart_toStartOf="@+id/switchDist" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mass"
-        app:layout_constraintBottom_toTopOf="@+id/switchReps"
-        app:layout_constraintStart_toStartOf="@+id/switchMass" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sets"
-        app:layout_constraintBottom_toTopOf="@+id/switchReps"
-        app:layout_constraintStart_toStartOf="@+id/switchSets" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reps"
-        app:layout_constraintBottom_toTopOf="@+id/switchReps"
-        app:layout_constraintStart_toStartOf="@+id/switchReps" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
