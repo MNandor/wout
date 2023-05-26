@@ -2,6 +2,7 @@ package com.mnandor.wout.presentation.schedule
 
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mnandor.wout.DateUtility
 import com.mnandor.wout.DateUtility.Companion.offsetModifier
+import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.Location
 import com.mnandor.wout.databinding.ActivityScheduleBinding
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -74,6 +77,30 @@ class ScheduleActivity : AppCompatActivity() {
         viewModel.allDayTemplates.observe(this, androidx.lifecycle.Observer {
             adapter.setDropDownOptions(it)
             adapter.notifyDataSetChanged()
+
+        })
+
+        viewModel.allDayTemplateNames.observe(this, androidx.lifecycle.Observer {
+            val itemsMut = it.toMutableList()
+            itemsMut.add("All")
+            val adapter = ArrayAdapter<String>(
+                this,
+                R.layout.spinner_item,
+                itemsMut
+            )
+
+            binding.dayTemplateSelector3.adapter = adapter
+
+            adapter.notifyDataSetChanged()
+
+            dayTemplates = itemsMut
+
+            viewModel.loadLocationSetting()
+        })
+
+        viewModel.locationSetting.observe(this, androidx.lifecycle.Observer {
+            dayTemplates?.let { it1 -> binding.dayTemplateSelector3.setSelection(it1.indexOf(it)) }
+
         })
 
         viewModel.allScheduleDays.observe(this, androidx.lifecycle.Observer {
@@ -82,6 +109,8 @@ class ScheduleActivity : AppCompatActivity() {
         })
 
     }
+
+    private var dayTemplates:List<String>? = null
 
     private fun getScheduledDates(totalDays: Int, todayIs: Int): MutableList<String> {
         val calendar = Calendar.getInstance()
