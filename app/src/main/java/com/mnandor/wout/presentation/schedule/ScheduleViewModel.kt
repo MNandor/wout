@@ -20,6 +20,31 @@ class ScheduleViewModel(private val database: ExerciseDatabase) : ViewModel() {
 
     val allScheduleDays: LiveData<List<ScheduleDay>> = database.dao().getDaySchedules().asLiveData()
 
+    fun setFilter(filterStr: String){
+
+        Log.d("nandorsss", filterStr)
+
+        GlobalScope.launch {
+
+            if (filterStr == "All"){
+                database.dao().deleteScheduleDayByID(-1)
+                return@launch
+            }
+
+            val today = DateUtility.getToday()
+
+            database.dao().setValue(KeyValue("lastDay", today))
+
+            val loc = database.dao().getLocationByName(filterStr)
+
+            Log.d("nandorsss", loc.toString())
+
+            val settableDay = ScheduleDay(-1, loc.itemID, "")
+            database.dao().addScheduleDay(settableDay)
+
+        }
+    }
+
     fun setLoopAndOffset(total: Int, offset: Int){
         GlobalScope.launch { database.dao().setValue(KeyValue("scheduleTotal", total.toString()))}
         GlobalScope.launch { database.dao().setValue(KeyValue("scheduleOffset", offset.toString()))}

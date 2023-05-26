@@ -80,28 +80,19 @@ class ScheduleActivity : AppCompatActivity() {
 
         })
 
-        viewModel.allDayTemplateNames.observe(this, androidx.lifecycle.Observer {
-            val itemsMut = it.toMutableList()
-            itemsMut.add("All")
-            val adapter = ArrayAdapter<String>(
-                this,
-                R.layout.spinner_item,
-                itemsMut
-            )
-
-            binding.dayTemplateSelector3.adapter = adapter
-
-            adapter.notifyDataSetChanged()
-
-            dayTemplates = itemsMut
+        viewModel.allDayTemplateNames.observe(this, androidx.lifecycle.Observer { items ->
+            binding.todayIsSelector.setItems(items)
 
             viewModel.loadLocationSetting()
         })
 
         viewModel.locationSetting.observe(this, androidx.lifecycle.Observer {
-            dayTemplates?.let { it1 -> binding.dayTemplateSelector3.setSelection(it1.indexOf(it)) }
-
+            binding.todayIsSelector.setSelection(it)
         })
+
+        binding.todayIsSelector.setCallback {
+            viewModel.setFilter(it)
+        }
 
         viewModel.allScheduleDays.observe(this, androidx.lifecycle.Observer {
             adapter.setDropdownValues(it)
