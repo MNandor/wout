@@ -35,11 +35,17 @@ class EditCompletionDialog(context: Context) : Dialog(context) {
             dialogChangeButton.setOnClickListener {
                 // todo changing timestamp is not supported as it's a primary key
 
+                val newDate = dialogLogDateET.text.toString()+" "+dialogLogTimeET.text.toString()
+                if (newDate != completion.timestamp && redateCallback != null){
+                    redateCallback!!(completion.timestamp, newDate)
+                }
+
+
                 var duration:String? = dialogTimeET.text.toString()
                 if (duration.isNullOrEmpty())
                     duration = null
                 val newLog: Completion = Completion(
-                    timestamp = completion.timestamp,
+                    timestamp = newDate,
                     exercise = completion.exercise,
                     duration = duration,
                     distance = dialogDistanceET.text.toString().toFloatOrNull(),

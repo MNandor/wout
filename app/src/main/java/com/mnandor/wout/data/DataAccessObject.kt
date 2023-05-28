@@ -95,4 +95,7 @@ interface DataAccessObject {
     @Update
     fun updateExercise(exercise: Exercise)
 
+    @Query("UPDATE completion SET timestamp = :newStamp WHERE timestamp = :oldStamp")
+    fun updateCompletionTimeStamp(oldStamp: String, newStamp: String)
+
 }

@@ -286,13 +286,12 @@ class MainActivity : AppCompatActivity() {
 
     public fun editExerciseLog(completion: Completion){
 
-        val settingsDialog = Dialog(this)
-
         val dialog = EditCompletionDialog(this)
 
         dialog.setCompletion(completion)
 
         dialog.setUpdateCallback { viewModel.updateExerciseLog(it) }
+        dialog.setRedateCallback { oldDate, newDate -> viewModel.changeCompletionDate(oldDate, newDate)  }
 
         dialog.show()
     }

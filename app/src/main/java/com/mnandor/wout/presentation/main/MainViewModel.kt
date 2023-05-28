@@ -45,6 +45,12 @@ class MainViewModel(private val database: ExerciseDatabase) : ViewModel() {
         }
     }
 
+    fun changeCompletionDate(oldDate: String, newDate: String){
+        GlobalScope.launch {
+            database.dao().updateCompletionTimeStamp(oldDate, newDate)
+        }
+    }
+
     val allVisibleTemplates: LiveData<List<Exercise>> = filter.switchMap {
         database.dao().getNonhiddenTemplates(it).asLiveData()
     }
