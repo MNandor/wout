@@ -24,6 +24,7 @@ import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.ActivityMainBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
+import com.mnandor.wout.presentation.EditCompletionDialog
 import com.mnandor.wout.presentation.exercises.ExercisesActivity
 import com.mnandor.wout.presentation.schedule.ScheduleActivity
 import com.mnandor.wout.presentation.locations.LocationsActivity
@@ -284,50 +285,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     public fun editExerciseLog(completion: Completion){
-        Toast.makeText(this, completion.exercise, Toast.LENGTH_SHORT).show()
+
         val settingsDialog = Dialog(this)
 
-        val dialogBinding = DialogEditLogBinding.inflate(layoutInflater)
+        val dialog = EditCompletionDialog(this)
 
-        with(dialogBinding){
-            dialogLogName.text = completion.exercise
-            dialogLogDateET.setText(completion.timestamp.split(" ")[0])
-            dialogLogTimeET.setText(completion.timestamp.split(" ")[1])
+        dialog.setCompletion(completion)
 
-            if (completion.duration != null) dialogTimeET.setText(completion.duration) else dialogTimeET.visibility = View.GONE
-            if (completion.distance != null) dialogDistanceET.setText(completion.distance.toString()) else dialogDistanceET.visibility = View.GONE
-            if (completion.weight != null) dialogWeightET.setText(completion.weight.toString()) else dialogWeightET.visibility = View.GONE
-            if (completion.sets != null) dialogSetCountET.setText(completion.sets.toString()) else dialogSetCountET.visibility = View.GONE
-            if (completion.reps != null) dialogRepCountET.setText(completion.reps.toString()) else dialogRepCountET.visibility = View.GONE
+        dialog.setUpdateCallback { viewModel.updateExerciseLog(it) }
 
-            dialogCancelButton.setOnClickListener { settingsDialog.dismiss() }
-            dialogChangeButton.setOnClickListener {
-                // todo changing timestamp is not supported as it's a primary key
-
-                var duration:String? = dialogTimeET.text.toString()
-                if (duration.isNullOrEmpty())
-                    duration = null
-                val newLog: Completion = Completion(
-                    timestamp = completion.timestamp,
-                    exercise = completion.exercise,
-                    duration = duration,
-                    distance = dialogDistanceET.text.toString().toFloatOrNull(),
-                    weight = dialogWeightET.text.toString().toFloatOrNull(),
-                    sets = dialogSetCountET.text.toString().toIntOrNull(),
-                    reps = dialogRepCountET.text.toString().toIntOrNull(),
-                )
-
-                viewModel.updateExerciseLog(newLog)
-                settingsDialog.dismiss()
-
-            }
-        }
-
-
-
-        settingsDialog.setContentView(dialogBinding.root)
-
-
-        settingsDialog.show()
+        dialog.show()
     }
 }
