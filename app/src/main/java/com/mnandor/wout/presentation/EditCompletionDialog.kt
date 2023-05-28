@@ -2,14 +2,10 @@ package com.mnandor.wout.presentation
 
 import android.app.Dialog
 import android.content.Context
-import android.opengl.Visibility
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.mnandor.wout.DateUtility
 import com.mnandor.wout.data.entities.Completion
-import com.mnandor.wout.data.entities.Exercise
-import com.mnandor.wout.databinding.DialogEditExerciseBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
 
 class EditCompletionDialog(context: Context) : Dialog(context) {
