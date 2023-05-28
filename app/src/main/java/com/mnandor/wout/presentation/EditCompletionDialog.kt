@@ -5,6 +5,8 @@ import android.content.Context
 import android.opengl.Visibility
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import com.mnandor.wout.DateUtility
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.data.entities.Exercise
 import com.mnandor.wout.databinding.DialogEditExerciseBinding
@@ -36,6 +38,12 @@ class EditCompletionDialog(context: Context) : Dialog(context) {
                 // todo changing timestamp is not supported as it's a primary key
 
                 val newDate = dialogLogDateET.text.toString()+" "+dialogLogTimeET.text.toString()
+
+                if (!DateUtility.validateCompletionDate(newDate)){
+                    Toast.makeText(context, "Wrong Date Format", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 if (newDate != completion.timestamp && redateCallback != null){
                     redateCallback!!(completion.timestamp, newDate)
                 }
@@ -61,7 +69,6 @@ class EditCompletionDialog(context: Context) : Dialog(context) {
         }
 
     }
-
 
     private var redateCallback: ((String, String) -> Unit)? = null
     public fun setRedateCallback(callback: (oldDate: String, newDate: String) -> Unit){
