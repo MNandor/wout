@@ -1,0 +1,3 @@
+Schedule screen now shows today's override.
+Better popup editors for Completions and Exercises.
+Improve screen data preservation when app is paused.
