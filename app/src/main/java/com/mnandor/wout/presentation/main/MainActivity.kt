@@ -92,10 +92,15 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        // edge case: if user is editing multiple logs way in the past
+        // we might not want to always scroll down
+        // rare occurence, keep it like this for now
         viewModel.allLogs.observe(this, Observer { items ->
             items?.let{adapter.setItems(items)}
             adapter.notifyDataSetChanged()
-            recyclerView.scrollToPosition(items.size)
+            // adapter.itemCount factors in the separators that display the date
+            // items.size does not
+            recyclerView.scrollToPosition(adapter.itemCount-1)
         })
 
         viewModel.allDayTemplates.observe(this, Observer { items ->
