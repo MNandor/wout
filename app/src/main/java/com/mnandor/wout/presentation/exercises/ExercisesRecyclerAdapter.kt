@@ -3,6 +3,7 @@ package com.mnandor.wout.presentation.exercises
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mnandor.wout.R
@@ -15,6 +16,7 @@ class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.E
 
     private lateinit var editCallback: (Exercise) -> Unit
     private lateinit var deleteCallback: (Exercise) -> Unit
+    private lateinit var openGraphCallback: (Exercise) -> Unit
 
     fun setEditCallback(callback: (Exercise) -> Unit){
         editCallback = callback
@@ -22,6 +24,10 @@ class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.E
 
     fun setDeleteCallback(callback: (Exercise) -> Unit){
         deleteCallback = callback
+    }
+
+    fun setOpenGraphCallback(callback: (Exercise) -> Unit){
+        openGraphCallback = callback
     }
 
     fun setItems(newItems:List<Exercise>){
@@ -41,6 +47,9 @@ class ExercisesRecyclerAdapter : RecyclerView.Adapter<ExercisesRecyclerAdapter.E
         }
         holder.itemView.setOnClickListener {
             editCallback(current)
+        }
+        holder.itemView.findViewById<ImageButton>(R.id.openGraphButton).setOnClickListener{
+            openGraphCallback(current)
         }
     }
 

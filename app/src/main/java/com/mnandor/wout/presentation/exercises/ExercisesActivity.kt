@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -48,6 +49,9 @@ class ExercisesActivity : AppCompatActivity() {
 
         adapter.setDeleteCallback {
             deleteExerciseLog(it)
+        }
+        adapter.setOpenGraphCallback {
+            Log.d("graph", it.name)
         }
 
 
