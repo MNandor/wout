@@ -20,6 +20,9 @@
             android:name=".presentation.locations.LocationsActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.graph.GraphActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>

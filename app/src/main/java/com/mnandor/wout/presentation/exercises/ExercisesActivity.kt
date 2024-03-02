@@ -2,6 +2,7 @@ package com.mnandor.wout.presentation.exercises
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import com.mnandor.wout.databinding.ActivityConfigBinding
 import com.mnandor.wout.databinding.DialogEditExerciseBinding
 import com.mnandor.wout.databinding.DialogEditLogBinding
 import com.mnandor.wout.presentation.EditExerciseDialog
+import com.mnandor.wout.presentation.graph.GraphActivity
 
 class ExercisesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityConfigBinding
@@ -52,6 +54,9 @@ class ExercisesActivity : AppCompatActivity() {
         }
         adapter.setOpenGraphCallback {
             Log.d("graph", it.name)
+            val intent = Intent(this, GraphActivity::class.java)
+            intent.putExtra("exerciseName", it.name)
+            startActivity(intent)
         }
 
 
