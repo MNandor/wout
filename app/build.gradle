@@ -81,4 +81,6 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.5'
 }
