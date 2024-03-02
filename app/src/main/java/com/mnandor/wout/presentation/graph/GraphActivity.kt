@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.anychart.AnyChart
 import com.anychart.AnyChartView
 import com.anychart.chart.common.dataentry.DataEntry
@@ -16,6 +17,7 @@ import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
 import com.mnandor.wout.WoutApplication
+import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.databinding.ActivityGraphBinding
 
 
@@ -38,41 +40,26 @@ class GraphActivity : AppCompatActivity() {
         binding.graphExerciseName.text = exerciseName
 
 
-        setUpGraph()
+
+        viewModel.filteredLogs.observe(this, Observer { items ->
+          setUpGraph(items)
+        })
+        viewModel.getLast30DaysOfRelevantLogs(exerciseName)
+
     }
 
 
-    private fun setUpGraph(){
+    private fun setUpGraph(items: List<Completion>){
         val anyChartView = binding.anyChartView
 
         val cartesian: Cartesian = AnyChart.column()
 
         val data: MutableList<DataEntry> = ArrayList()
-        data.add(ValueDataEntry("Rouge", 80540))
-        data.add(ValueDataEntry("Foundation", 94190))
-        data.add(ValueDataEntry("Mascara", 102610))
-        data.add(ValueDataEntry("Lip gloss", 110430))
-        data.add(ValueDataEntry("Lipstick", 128000))
-        data.add(ValueDataEntry("Nail polish", 143760))
-        data.add(ValueDataEntry("Eyebrow pencil", 170670))
-        data.add(ValueDataEntry("Eyeliner", 213210))
-        data.add(ValueDataEntry("Eyeshadows", 249980))
-        data.add(ValueDataEntry("Eyeshadows", 249980))
-        data.add(ValueDataEntry("Eyeshadows", 249980))
-        data.add(ValueDataEntry("Eyeshadows", 249980))
-        data.add(ValueDataEntry("Nail polish", 143760))
-        data.add(ValueDataEntry("Eyebrow pencil", 170670))
-        data.add(ValueDataEntry("Eyeliner", 213210))
-        data.add(ValueDataEntry("Eyeshadows", 249980))
-        data.add(ValueDataEntry("1Eyeshadows", 249980))
-        data.add(ValueDataEntry("2Eyeshadows", 249980))
-        data.add(ValueDataEntry("3Nail polish", 143760))
-        data.add(ValueDataEntry("4Eyebrow pencil", 170670))
-        data.add(ValueDataEntry("5Eyeliner", 213210))
-        data.add(ValueDataEntry("6Eyeshadows", 249980))
-        data.add(ValueDataEntry("7Eyeshadows", 249980))
-        data.add(ValueDataEntry("8Eyeshadows", 249980))
-        data.add(ValueDataEntry("9Eyeshadows", 249980))
+
+        for (item in items){
+            data.add(ValueDataEntry(item.timestamp, item.sets))
+        }
+
 
         val column: Column = cartesian.column(data)
 

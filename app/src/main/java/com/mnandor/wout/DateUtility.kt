@@ -36,6 +36,10 @@ class DateUtility {
             }
         }
 
+        fun parseFormatToUnix(input: String): Int {
+            return (completionTimestampFormat.parse(input).time/1000).toInt()
+        }
+
 
     }
 }
