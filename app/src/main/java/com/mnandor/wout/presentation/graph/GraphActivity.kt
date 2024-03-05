@@ -43,10 +43,6 @@ class GraphActivity : AppCompatActivity() {
         binding.graphExerciseName.text = exerciseName
 
 
-
-        viewModel.filteredLogs.observe(this, Observer { items ->
-          setUpGraph(items)
-        })
         viewModel.getLast30DaysOfRelevantLogs(exerciseName)
 
         binding.graphSummarizeSwitch.setOnCheckedChangeListener{_, state:Boolean ->
@@ -74,22 +70,36 @@ class GraphActivity : AppCompatActivity() {
 
         };
 
+        viewModel.data.observe(this, Observer{items ->
+            Log.d("GraphView", "# $items")
+
+            setUpGraph(items)
+
+        })
+
     }
 
 
-    private fun setUpGraph(items: List<Completion>){
+    var cartesian: Cartesian? = null
+    private fun setUpGraph(items: List<Pair<String, Float>>){
         val anyChartView = binding.anyChartView
 
-        val cartesian: Cartesian = AnyChart.column()
+        if (cartesian == null)
+            cartesian = AnyChart.column()
+
+        anyChartView.clear()
+        cartesian!!.removeAllSeries()
 
         val data: MutableList<DataEntry> = ArrayList()
 
         for (item in items){
-            data.add(ValueDataEntry(item.timestamp, item.sets))
+            data.add(ValueDataEntry(item.first, item.second))
         }
 
+        Log.d("GraphView", "# $data")
 
-        val column: Column = cartesian.column(data)
+
+        val column: Column = cartesian!!.column(data)
 
         column.tooltip()
             .titleFormat("{%X}")
@@ -99,20 +109,21 @@ class GraphActivity : AppCompatActivity() {
             .offsetY(5.0)
             .format("\${%Value}{groupsSeparator: }")
 
-        cartesian.animation(true)
-        cartesian.title("Top 10 Cosmetic Products by Revenue")
+        //cartesian.animation(true)
+        cartesian!!.title("Top 10 Cosmetic Products by Revenue")
 
-        cartesian.yScale().minimum(0.0)
+        cartesian!!.yScale().minimum(0.0)
 
-        cartesian.yAxis(0).labels().format("\${%Value}{groupsSeparator: }")
+        cartesian!!.yAxis(0).labels().format("\${%Value}{groupsSeparator: }")
 
-        cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
-        cartesian.interactivity().hoverMode(HoverMode.BY_X)
+        cartesian!!.tooltip().positionMode(TooltipPositionMode.POINT)
+        cartesian!!.interactivity().hoverMode(HoverMode.BY_X)
 
-        cartesian.xAxis(0).title("Product")
-        cartesian.yAxis(0).title("Revenue")
+        cartesian!!.xAxis(0).title("Product")
+        cartesian!!.yAxis(0).title("Revenue")
 
         anyChartView.setChart(cartesian)
+
     }
 
 

@@ -40,6 +40,11 @@ class DateUtility {
             return (completionTimestampFormat.parse(input).time/1000).toInt()
         }
 
+        fun getDateOnlyFromFull(input: String): String {
+            val fullDate = completionTimestampFormat.parse(input)
+            return compFormat.format(fullDate)
+        }
+
 
     }
 }
