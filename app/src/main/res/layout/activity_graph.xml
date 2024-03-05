@@ -7,15 +7,47 @@
     tools:context=".presentation.exercises.ExercisesActivity"
     >
 
-    <TextView
-        android:id="@+id/graphExerciseName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <com.anychart.AnyChartView
-        android:id="@+id/anyChartView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <Spinner
+            android:id="@+id/graphTraitSpinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/graphExerciseName"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/graphExerciseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/graphTraitSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/graphTraitSpinner" />
+
+        <com.anychart.AnyChartView
+            android:id="@+id/anyChartView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/graphTraitSpinner" />
+
+        <Switch
+            android:id="@+id/graphSummarizeSwitch"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Summarized"
+            app:layout_constraintBottom_toBottomOf="@+id/graphTraitSpinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/graphTraitSpinner"
+            app:layout_constraintTop_toTopOf="@+id/graphTraitSpinner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

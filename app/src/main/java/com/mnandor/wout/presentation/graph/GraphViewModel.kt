@@ -30,6 +30,19 @@ class GraphViewModel(private val database: ExerciseDatabase) : ViewModel() {
         }
     }
 
+    private var summarized: Boolean = false
+
+    fun setSummarizeToggle(summarized: Boolean){
+        Log.d("GraphView", "Summarized: was ${this.summarized}; now is ${summarized}")
+        this.summarized = summarized
+    }
+
+    private var trait: String = "Sets"
+    fun setTrait(trait: String){
+        Log.d("GraphView", "Trait: $trait")
+        this.trait = trait
+    }
+
 
 }
 

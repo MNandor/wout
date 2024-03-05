@@ -1,13 +1,15 @@
 package com.mnandor.wout.presentation.graph
 
-import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.anychart.AnyChart
-import com.anychart.AnyChartView
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Cartesian
@@ -16,6 +18,7 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.HoverMode
 import com.anychart.enums.Position
 import com.anychart.enums.TooltipPositionMode
+import com.mnandor.wout.R
 import com.mnandor.wout.WoutApplication
 import com.mnandor.wout.data.entities.Completion
 import com.mnandor.wout.databinding.ActivityGraphBinding
@@ -45,6 +48,31 @@ class GraphActivity : AppCompatActivity() {
           setUpGraph(items)
         })
         viewModel.getLast30DaysOfRelevantLogs(exerciseName)
+
+        binding.graphSummarizeSwitch.setOnCheckedChangeListener{_, state:Boolean ->
+            viewModel.setSummarizeToggle(state)
+        }
+
+        val arrayAdapter = ArrayAdapter.createFromResource(this, R.array.traits, android.R.layout.simple_spinner_item)
+
+        binding.graphTraitSpinner.adapter = arrayAdapter
+
+        binding.graphTraitSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val selection = arrayAdapter.getItem(position)
+                viewModel.setTrait(selection.toString())
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        };
 
     }
 
